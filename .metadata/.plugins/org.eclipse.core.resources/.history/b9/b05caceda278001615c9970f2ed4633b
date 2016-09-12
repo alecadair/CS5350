@@ -1,0 +1,307 @@
+/*
+ * id3.cpp
+ *
+ *  Created on: Sep 10, 2016
+ *      Author: adair
+ */
+#include <stdio.h>
+#include <iostream>
+#include <stdlib.h>
+#include <vector>
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <math.h>
+#include <map>
+#include <set>
+
+using namespace std;
+class TreeNode{
+public:
+	vector<TreeNode*> children;
+	bool isLeafNode;
+	//represents the vecor position of the attribute to be checked.
+	int attribute;
+	char value;
+};
+
+//double CalculateInfoGain(vector<vector<char> > dataTable, vector<int> attributes, int indexOfAttribute){
+//	double entropy = 0;
+//
+//	return 0.0;
+//}
+int CalculateBestAttribute(vector<vector<char> > dataTable,vector<int> attributes){
+	double highestInfoGain = 0;
+	int highestGainIndex = 23;
+	for(int i = 0; i < attributes.size(); i++){
+		//double parentEntropy = 1;
+		int attributeIndex = attributes.at(i);
+
+		//map<char, vector<char> >
+		map<char,int> attributeCount;
+		set<char> attributeSet;
+		double totalExamples = 0;
+		double pCount = 0, eCount = 0;
+
+		for(int j = 0; j < dataTable.size(); j++){
+			char attr = dataTable.at(j).at(attributeIndex);
+			attributeSet.insert(attr);
+			if(dataTable.at(j).at(22) == 'e'){
+				eCount ++;
+			}
+			else{
+				pCount ++;
+			}
+			totalExamples ++;
+		}
+		double eProportion = eCount/totalExamples;
+		double pProportion = pCount/totalExamples;
+		double elog =log2(eProportion);
+		double plog = log2(pProportion);
+		double parentEntropy = -1*eProportion*elog +(-1*(pProportion)*plog);
+		//float pCount = 0;
+		//float eCount = 0;
+		//double infoGain = parentEntropy;
+		double childEntropy = 0;
+		for(set<char>::iterator iter = attributeSet.begin(); iter != attributeSet.end(); iter ++){
+			double subPCount = 0;
+			double subECount= 0;
+			double totalWithAtts = 0;
+			for(int j = 0; j < dataTable.size(); j++){
+				if(dataTable.at(j).at(attributeIndex) == *iter){
+					totalWithAtts ++;
+					if(dataTable.at(j).at(22) == 'e'){
+						subECount ++;
+					}
+					else{
+						subPCount ++;
+					}
+				}
+			}
+			double subEProp = subECount/totalWithAtts;
+			double subPProp = subPCount/totalWithAtts;
+			double subEntrop = -1*(subEProp)*log2(subEProp) + (-1)*(subPProp)*log2(subPProp);
+			double subProp = totalWithAtts/((double)dataTable.size());
+			childEntropy += (subProp*subEntrop);
+		}
+		double infoGain = parentEntropy - childEntropy;
+		if(infoGain > highestInfoGain){
+			highestInfoGain = infoGain;
+			highestGainIndex = attributeIndex;
+		}
+	}
+	return highestGainIndex;
+}
+
+
+TreeNode* InduceTree(vector<vector<char> > dataTable, vector<int> attributes){
+	//create new root node
+	TreeNode* rootNode = new TreeNode;
+	/*
+	 * Base Case check for all similar labels.
+	 */
+	bool sameLabels = true;
+	char label = dataTable.at(0).at(dataTable.at(0).size() -1);
+	for(int i = 0; i < dataTable.size();i++){
+		vector<char> row = dataTable.at(i);
+		char labelCheck = row.at(row.size() -1);
+		//string labelCheck = dataTable.at(i).at(dataTable.at(i).size() -1 );
+		//if(label.compare(labelCheck) != 0){
+		if(labelCheck != label){
+			sameLabels = false;
+			break;
+		}
+	}
+	/*for(int i = 0; i < dataTable.size(); i++){
+		cout << "Label\t" << dataTable.at(i).at(22) << endl;
+	}*/
+	/*
+	 * If all of the examples in the data table
+	 * have the same label
+	 */
+	if(sameLabels){
+		//
+		//TreeNode* leafNode = new TreeNode;
+		rootNode->isLeafNode = true;
+		rootNode->value = dataTable.at(0).at(22);
+		//rootNode->children = NULL;
+		rootNode->attribute = -1;
+		return rootNode;
+	}
+	if(attributes.empty()){
+		int eCounter = 0;
+		int pCounter = 0;
+		for(int i = 0; i < dataTable.size(); i ++){
+			if(dataTable.at(i).at(22) == 'p'){
+				pCounter ++;
+			}else{
+				eCounter ++;
+			}
+		}
+		if(eCounter > pCounter){
+			rootNode->isLeafNode = true;
+			rootNode->value = 'e';
+			//rootNode->children = NULL;
+			rootNode->attribute = -1;
+			return rootNode;
+		}else{
+			rootNode->isLeafNode = true;
+			rootNode->value = 'p';
+			//rootNode->children = NULL;
+			rootNode->attribute = -1;
+			return rootNode;
+		}
+	}
+	else{
+		rootNode->attribute = CalculateBestAttribute(dataTable,attributes);
+		set<char> possibleAttributes;
+		for(int i = 0; i < dataTable.size(); i++){
+			possibleAttributes.insert(dataTable.at(i).at(rootNode->attribute));
+		}
+		for(set<char>::iterator iter = possibleAttributes.begin(); iter != possibleAttributes.end(); iter ++){
+			vector<vector<char> > subset;
+			for(int j = 0; j < dataTable.size(); j++){
+				if(dataTable.at(j).at(rootNode->attribute) == *iter){
+					subset.push_back(dataTable.at(j));
+				}
+			}
+			if(subset.empty()){
+				TreeNode* leafNode = new TreeNode;
+				rootNode->children.push_back(leafNode);
+				leafNode->isLeafNode = true;
+				int eCounter = 0;
+				int pCounter = 0;
+				for(int i = 0; i < dataTable.size(); i++){
+					if(dataTable.at(i).at(22) == 'e'){
+						eCounter ++;
+					}else{
+						pCounter ++;
+					}
+				}
+				if(eCounter > pCounter){
+					leafNode->value = 'e';
+				}else{
+					leafNode->value = 'p';
+				}
+				leafNode->attribute = 23;
+			}else{
+				vector<int> attributeSubset;
+				for(int i = 0; i< 22; i ++){
+					if(i != rootNode->attribute){
+						attributeSubset.push_back(i);
+					}
+				}
+				rootNode->children.push_back(InduceTree(subset,attributeSubset));
+			}
+		}
+		return rootNode;
+
+
+
+		//for(int i = 0; i < possibleAttributes.size(); i++){
+
+			//TreeNode* newNode = new TreeNode;
+			//rootNode->children.push_back(newNode);
+
+		//}
+
+//		double highestInfoGain = 0;
+//		int highestGainInfoAttribute = 23;
+//		for(int i = 0; i < attributes.size(); i++){
+//			//double parentEntropy = 1;
+//			int attributeIndex = attributes.at(i);
+//
+//			//map<char, vector<char> >
+//			map<char,int> attributeCount;
+//			set<char> attributes;
+//			double totalExamples = 0;
+//			double pCount = 0, eCount = 0;
+//
+//			for(int j = 0; j < dataTable.size(); j++){
+//				char attr = dataTable.at(j).at(attributeIndex);
+//				attributes.insert(attr);
+//				if(dataTable.at(j).at(22) == 'e'){
+//					eCount ++;
+//				}
+//				else{
+//					pCount ++;
+//				}
+//				totalExamples ++;
+//			}
+//			double eProportion = eCount/totalExamples;
+//			double pProportion = pCount/totalExamples;
+//			double parentEntropy = -1*eProportion*log2(eProportion) + -1*(pProportion)*log2(pProportion);
+//			//float pCount = 0;
+//			//float eCount = 0;
+//			//double infoGain = parentEntropy;
+//			double childEntropy = 0;
+//			for(set<char>::iterator iter = attributes.begin(); iter != attributes.end(); iter ++){
+//				double subPCount = 0;
+//				double subECount= 0;
+//				double totalWithAtts = 0;
+//				for(int j = 0; j < dataTable.size(); j++){
+//					if(dataTable.at(j).at(attributeIndex) == *iter){
+//						totalWithAtts ++;
+//						if(dataTable.at(j).at(22) == 'e'){
+//							subECount ++;
+//						}
+//						else{
+//							subPCount ++;
+//						}
+//					}
+//				}
+//				double subEProp = subECount/totalWithAtts;
+//				double subPProp = subPCount/totalWithAtts;
+//				double subEntrop = -1*(subEProp)*log2(subEProp) + (-1)*(subPProp)*log2(subPProp);
+//				double subProp = totalWithAtts/((double)dataTable.size());
+//				childEntropy += (subProp*subEntrop);
+//			}
+//			double infoGain = parentEntropy - childEntropy;
+//			if(infoGain > highestInfoGain){
+//				highestInfoGain = infoGain;
+//				highestGainInfoAttribute = attributeIndex;
+//			}
+//		}
+	}
+	return rootNode;
+}
+
+
+
+vector<vector<char> > ParseAndConstructTable(){
+	vector<vector<char> > dataTable;
+	//vector<string> data;
+	string line;
+	//stringstream iss;
+	//string token;
+	ifstream infile( "./datasets/SettingA/smallTest.data");
+	if(infile.is_open()){
+		while(getline(infile,line)){
+			stringstream iss;
+			iss << line;
+			vector<char> data;
+			string token;
+			while(getline(iss,token, ',')){
+			//while(iss << line){
+				//data.push_back(token->c_);
+				data.push_back(token.c_str()[0]);
+			}
+			iss.clear();
+			dataTable.push_back(data);
+		}
+	}
+	return dataTable;
+}
+
+
+int main(int argc, char*argv[]){
+	vector<vector<char> > dataTable;
+	dataTable = ParseAndConstructTable();
+	vector<int> attsToCheck;
+	for(int i = 0; i < 22; i ++){
+		attsToCheck.push_back(i);
+	}
+	TreeNode* rootNode = InduceTree(dataTable, attsToCheck);
+	return 0;
+}

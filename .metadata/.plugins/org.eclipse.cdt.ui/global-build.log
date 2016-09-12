@@ -1,0 +1,966 @@
+18:23:29 **** Build of configuration Debug for project Assign1 ****
+make all 
+CC FLAGS -o IDE ID3.cpp
+clang: error: no such file or directory: 'FLAGS'
+make: *** [ID3] Error 1
+18:25:21 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+CC FLAGS -o IDE ID3.cpp
+clang: error: no such file or directory: 'FLAGS'
+make: *** [ID3] Error 1
+18:25:46 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+CC -g -o IDE ID3.cpp
+18:29:51 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+CC -g -o IDE ID3.cpp
+18:30:37 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+CC -g -o ID3 ID3.cpp
+18:30:45 **** Clean-only build of configuration Debug for project Assign1 ****
+make clean 
+rm ID3 ID3.o
+rm: ID3.o: No such file or directory
+make: *** [clean] Error 1
+18:30:50 **** Build of configuration Debug for project Assign1 ****
+make all 
+CC -g -o ID3 ID3.cpp
+19:06:33 **** Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -o id3 id3.cpp
+Undefined symbols for architecture x86_64:
+  "_main", referenced from:
+     implicit entry/start for main executable
+ld: symbol(s) not found for architecture x86_64
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+make: *** [id3] Error 1
+19:07:11 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -o id3 id3.cpp
+19:08:00 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+19:08:05 **** Clean-only build of configuration Debug for project Assign1 ****
+make clean 
+rm id3
+19:08:09 **** Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -o id3 id3.cpp
+19:08:48 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+19:09:19 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -o id3 id3.cpp
+id3.cpp:12:26: error: use of undeclared identifier 'endl'; did you mean 'std::endl'?
+        std::cout << "hello" << endl;
+                                ^~~~
+                                std::endl
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/ostream:1032:1: note: 'std::endl' declared here
+endl(basic_ostream<_CharT, _Traits>& __os)
+^
+1 error generated.
+make: *** [id3] Error 1
+19:09:40 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -o id3 id3.cpp
+id3.cpp:12:26: error: use of undeclared identifier 'endl'; did you mean 'std::endl'?
+        std::cout << "hello" << endl;
+                                ^~~~
+                                std::endl
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/ostream:1032:1: note: 'std::endl' declared here
+endl(basic_ostream<_CharT, _Traits>& __os)
+^
+1 error generated.
+make: *** [id3] Error 1
+19:09:48 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -o id3 id3.cpp
+19:09:52 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+19:10:18 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+19:12:02 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -o id3 id3.cpp
+19:12:15 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -o id3 id3.cpp
+23:53:51 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -o id3 id3.cpp
+id3.cpp:14:8: error: field has incomplete type 'Node *[]'
+        Node* children[];
+              ^
+1 error generated.
+make: *** [id3] Error 1
+23:53:56 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -o id3 id3.cpp
+id3.cpp:14:8: error: field has incomplete type 'Node *[]'
+        Node* children[];
+              ^
+1 error generated.
+make: *** [id3] Error 1
+23:54:17 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -o id3 id3.cpp
+14:07:05 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+14:07:30 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+14:09:22 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+14:20:41 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp:50:13: error: 'isLeafNode' is a private member of 'TreeNode'
+                leafNode->isLeafNode = true;
+                          ^
+id3.cpp:20:7: note: implicitly declared private here
+        bool isLeafNode;
+             ^
+id3.cpp:51:13: error: 'value' is a private member of 'TreeNode'
+                leafNode->value = dataTable.at(0).at(22);
+                          ^
+id3.cpp:23:9: note: implicitly declared private here
+        string value;
+               ^
+id3.cpp:60:12: error: redefinition of 'rootNode'
+        TreeNode* rootNode = new TreeNode;
+                  ^
+id3.cpp:29:12: note: previous definition is here
+        TreeNode* rootNode;
+                  ^
+3 errors generated.
+make: *** [id3.o] Error 1
+14:21:06 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp:50:13: error: 'isLeafNode' is a private member of 'TreeNode'
+                leafNode->isLeafNode = true;
+                          ^
+id3.cpp:20:7: note: implicitly declared private here
+        bool isLeafNode;
+             ^
+id3.cpp:51:13: error: 'value' is a private member of 'TreeNode'
+                leafNode->value = dataTable.at(0).at(22);
+                          ^
+id3.cpp:23:9: note: implicitly declared private here
+        string value;
+               ^
+id3.cpp:60:12: error: redefinition of 'rootNode'
+        TreeNode* rootNode = new TreeNode;
+                  ^
+id3.cpp:29:12: note: previous definition is here
+        TreeNode* rootNode = new TreeNode;
+                  ^
+3 errors generated.
+make: *** [id3.o] Error 1
+14:21:48 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp:50:13: error: 'isLeafNode' is a private member of 'TreeNode'
+                rootNode->isLeafNode = true;
+                          ^
+id3.cpp:20:7: note: implicitly declared private here
+        bool isLeafNode;
+             ^
+id3.cpp:51:13: error: 'value' is a private member of 'TreeNode'
+                rootNode->value = dataTable.at(0).at(22);
+                          ^
+id3.cpp:23:9: note: implicitly declared private here
+        string value;
+               ^
+id3.cpp:60:12: error: redefinition of 'rootNode'
+        TreeNode* rootNode = new TreeNode;
+                  ^
+id3.cpp:29:12: note: previous definition is here
+        TreeNode* rootNode = new TreeNode;
+                  ^
+3 errors generated.
+make: *** [id3.o] Error 1
+14:22:04 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp:61:12: error: redefinition of 'rootNode'
+        TreeNode* rootNode = new TreeNode;
+                  ^
+id3.cpp:30:12: note: previous definition is here
+        TreeNode* rootNode = new TreeNode;
+                  ^
+1 error generated.
+make: *** [id3.o] Error 1
+14:22:16 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+14:22:36 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+14:27:59 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp:35:9: error: no viable conversion from 'value_type' (aka 'char') to 'string' (aka 'basic_string<char, char_traits<char>, allocator<char> >')
+        string label = dataTable.at(0).at(dataTable.at(0).size() -1);
+               ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/string:1335:31: note: candidate constructor not viable: no known conversion from 'value_type' (aka 'char') to 'const value_type *' (aka 'const char *') for 1st argument; take the address of the argument with &
+    _LIBCPP_INLINE_VISIBILITY basic_string(const value_type* __s);
+                              ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/string:1326:5: note: candidate constructor not viable: no known conversion from 'value_type' (aka 'char') to 'const std::__1::basic_string<char> &' for 1st argument
+    basic_string(const basic_string& __str);
+    ^
+id3.cpp:37:18: error: no viable conversion from 'vector<char, allocator<char>>' to 'vector<string, allocator<std::__1::basic_string<char>>>'
+                vector<string> row = dataTable.at(i);
+                               ^     ~~~~~~~~~~~~~~~
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:565:5: note: candidate constructor not viable: no known conversion from 'value_type' (aka 'std::__1::vector<char, std::__1::allocator<char> >') to 'const std::__1::vector<std::__1::basic_string<char>, std::__1::allocator<std::__1::basic_string<char> > > &' for 1st argument
+    vector(const vector& __x);
+    ^
+2 errors generated.
+make: *** [id3.o] Error 1
+14:28:28 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp:37:18: error: no viable conversion from 'vector<char, allocator<char>>' to 'vector<string, allocator<std::__1::basic_string<char>>>'
+                vector<string> row = dataTable.at(i);
+                               ^     ~~~~~~~~~~~~~~~
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:565:5: note: candidate constructor not viable: no known conversion from 'value_type' (aka 'std::__1::vector<char, std::__1::allocator<char> >') to 'const std::__1::vector<std::__1::basic_string<char>, std::__1::allocator<std::__1::basic_string<char> > > &' for 1st argument
+    vector(const vector& __x);
+    ^
+id3.cpp:40:11: error: member reference base type 'char' is not a structure or union
+                if(label.compare(labelCheck) != 0){
+                   ~~~~~^~~~~~~~
+2 errors generated.
+make: *** [id3.o] Error 1
+14:28:45 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp:40:11: error: member reference base type 'char' is not a structure or union
+                if(label.compare(labelCheck) != 0){
+                   ~~~~~^~~~~~~~
+1 error generated.
+make: *** [id3.o] Error 1
+14:29:07 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+make: *** [id3.o] Terminated: 15
+Command canceled
+14:29:11 **** Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -std=c++11 id3.o -o id3
+14:29:42 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+14:30:52 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+14:31:09 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+14:31:28 **** Clean-only build of configuration Debug for project Assign1 ****
+make clean 
+rm *o id3
+14:31:31 **** Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+14:31:34 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+15:25:30 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp:60:22: error: no viable overloaded '='
+                rootNode->children = NULL;
+                ~~~~~~~~~~~~~~~~~~ ^ ~~~~
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:568:13: note: candidate function not viable: no known conversion from 'long' to 'const std::__1::vector<TreeNode *, std::__1::allocator<TreeNode *> >' for 1st argument
+    vector& operator=(const vector& __x);
+            ^
+id3.cpp:78:23: error: no viable overloaded '='
+                        rootNode->children = NULL;
+                        ~~~~~~~~~~~~~~~~~~ ^ ~~~~
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:568:13: note: candidate function not viable: no known conversion from 'long' to 'const std::__1::vector<TreeNode *, std::__1::allocator<TreeNode *> >' for 1st argument
+    vector& operator=(const vector& __x);
+            ^
+id3.cpp:85:23: error: no viable overloaded '='
+                        rootNode->children = NULL;
+                        ~~~~~~~~~~~~~~~~~~ ^ ~~~~
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/vector:568:13: note: candidate function not viable: no known conversion from 'long' to 'const std::__1::vector<TreeNode *, std::__1::allocator<TreeNode *> >' for 1st argument
+    vector& operator=(const vector& __x);
+            ^
+3 errors generated.
+make: *** [id3.o] Error 1
+15:26:03 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+16:27:22 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp:114:26: error: no member named 'first' in 'std::__1::map<int, char, std::__1::less<int>, std::__1::allocator<std::__1::pair<const int, char> > >'
+                                attributeCount[attr].first ++;
+                                ~~~~~~~~~~~~~~~~~~~~ ^
+id3.cpp:119:78: error: expected ';' at end of declaration
+                        double parentEntropy = -1*eProportion*log2(eProportion) + -1*(pProportion)log2(pProportion);
+                                                                                                  ^
+                                                                                                  ;
+id3.cpp:122:14: warning: 'auto' type specifier is a C++11 extension [-Wc++11-extensions]
+                        for(const auto& example : attributeCount){
+                                  ^
+id3.cpp:122:28: warning: range-based for loop is a C++11 extension [-Wc++11-extensions]
+                        for(const auto& example : attributeCount){
+                                                ^
+id3.cpp:129:14: warning: 'auto' type specifier is a C++11 extension [-Wc++11-extensions]
+                        for(const auto& example : attributeCount){
+                                  ^
+id3.cpp:129:28: warning: range-based for loop is a C++11 extension [-Wc++11-extensions]
+                        for(const auto& example : attributeCount){
+                                                ^
+id3.cpp:130:39: error: invalid operands to binary expression ('const std::__1::map<int, char, std::__1::less<int>, std::__1::allocator<std::__1::pair<const int, char> > >' and 'double')
+                                double proportion = example.second/totalExamples;
+                                                    ~~~~~~~~~~~~~~^~~~~~~~~~~~~~
+4 warnings and 3 errors generated.
+make: *** [id3.o] Error 1
+16:28:23 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp:120:78: error: expected ';' at end of declaration
+                        double parentEntropy = -1*eProportion*log2(eProportion) + -1*(pProportion)log2(pProportion);
+                                                                                                  ^
+                                                                                                  ;
+id3.cpp:123:14: warning: 'auto' type specifier is a C++11 extension [-Wc++11-extensions]
+                        for(const auto& example : attributeCount){
+                                  ^
+id3.cpp:123:28: warning: range-based for loop is a C++11 extension [-Wc++11-extensions]
+                        for(const auto& example : attributeCount){
+                                                ^
+id3.cpp:130:14: warning: 'auto' type specifier is a C++11 extension [-Wc++11-extensions]
+                        for(const auto& example : attributeCount){
+                                  ^
+id3.cpp:130:28: warning: range-based for loop is a C++11 extension [-Wc++11-extensions]
+                        for(const auto& example : attributeCount){
+                                                ^
+id3.cpp:131:39: error: invalid operands to binary expression ('const std::__1::map<int, char, std::__1::less<int>, std::__1::allocator<std::__1::pair<const int, char> > >' and 'double')
+                                double proportion = example.second/totalExamples;
+                                                    ~~~~~~~~~~~~~~^~~~~~~~~~~~~~
+4 warnings and 2 errors generated.
+make: *** [id3.o] Error 1
+16:30:28 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp:121:78: error: expected ';' at end of declaration
+                        double parentEntropy = -1*eProportion*log2(eProportion) + -1*(pProportion)log2(pProportion);
+                                                                                                  ^
+                                                                                                  ;
+id3.cpp:124:14: warning: 'auto' type specifier is a C++11 extension [-Wc++11-extensions]
+                        for(const auto& example : attributeCount){
+                                  ^
+id3.cpp:124:28: warning: range-based for loop is a C++11 extension [-Wc++11-extensions]
+                        for(const auto& example : attributeCount){
+                                                ^
+id3.cpp:131:14: warning: 'auto' type specifier is a C++11 extension [-Wc++11-extensions]
+                        for(const auto& example : attributeCount){
+                                  ^
+id3.cpp:131:28: warning: range-based for loop is a C++11 extension [-Wc++11-extensions]
+                        for(const auto& example : attributeCount){
+                                                ^
+id3.cpp:132:39: error: invalid operands to binary expression ('const std::__1::map<int, char, std::__1::less<int>, std::__1::allocator<std::__1::pair<const int, char> > >' and 'double')
+                                double proportion = example.second/totalExamples;
+                                                    ~~~~~~~~~~~~~~^~~~~~~~~~~~~~
+4 warnings and 2 errors generated.
+make: *** [id3.o] Error 1
+16:31:57 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp:121:78: error: expected ';' at end of declaration
+                        double parentEntropy = -1*eProportion*log2(eProportion) + -1*(pProportion)log2(pProportion);
+                                                                                                  ^
+                                                                                                  ;
+id3.cpp:124:14: warning: 'auto' type specifier is a C++11 extension [-Wc++11-extensions]
+                        for(const auto& example : attributeCount){
+                                  ^
+id3.cpp:124:28: warning: range-based for loop is a C++11 extension [-Wc++11-extensions]
+                        for(const auto& example : attributeCount){
+                                                ^
+id3.cpp:131:14: warning: 'auto' type specifier is a C++11 extension [-Wc++11-extensions]
+                        for(const auto& example : attributeCount){
+                                  ^
+id3.cpp:131:28: warning: range-based for loop is a C++11 extension [-Wc++11-extensions]
+                        for(const auto& example : attributeCount){
+                                                ^
+id3.cpp:132:39: error: invalid operands to binary expression ('const std::__1::map<int, char, std::__1::less<int>, std::__1::allocator<std::__1::pair<const int, char> > >' and 'double')
+                                double proportion = example.second/totalExamples;
+                                                    ~~~~~~~~~~~~~~^~~~~~~~~~~~~~
+4 warnings and 2 errors generated.
+make: *** [id3.o] Error 1
+16:39:39 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp:114:19: error: no viable conversion from 'iterator' (aka '__map_iterator<typename __base::iterator>') to 'map<int, char>'
+                                map<int,char> example = attributeCount.find(attr);
+                                              ^         ~~~~~~~~~~~~~~~~~~~~~~~~~
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/map:882:5: note: candidate constructor not viable: no known conversion from 'iterator' (aka '__map_iterator<typename __base::iterator>') to 'const std::__1::map<int, char, std::__1::less<int>, std::__1::allocator<std::__1::pair<const int, char> > > &' for 1st argument
+    map(const map& __m)
+    ^
+id3.cpp:123:14: warning: 'auto' type specifier is a C++11 extension [-Wc++11-extensions]
+                        for(const auto& example : attributeCount){
+                                  ^
+id3.cpp:123:28: warning: range-based for loop is a C++11 extension [-Wc++11-extensions]
+                        for(const auto& example : attributeCount){
+                                                ^
+id3.cpp:130:14: warning: 'auto' type specifier is a C++11 extension [-Wc++11-extensions]
+                        for(const auto& example : attributeCount){
+                                  ^
+id3.cpp:130:28: warning: range-based for loop is a C++11 extension [-Wc++11-extensions]
+                        for(const auto& example : attributeCount){
+                                                ^
+id3.cpp:131:39: error: invalid operands to binary expression ('const std::__1::map<int, char, std::__1::less<int>, std::__1::allocator<std::__1::pair<const int, char> > >' and 'double')
+                                double proportion = example.second/totalExamples;
+                                                    ~~~~~~~~~~~~~~^~~~~~~~~~~~~~
+4 warnings and 2 errors generated.
+make: *** [id3.o] Error 1
+16:51:48 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp:128:14: warning: 'auto' type specifier is a C++11 extension [-Wc++11-extensions]
+                        for(const auto& example : attributeCount){
+                                  ^
+id3.cpp:128:28: warning: range-based for loop is a C++11 extension [-Wc++11-extensions]
+                        for(const auto& example : attributeCount){
+                                                ^
+id3.cpp:135:14: warning: 'auto' type specifier is a C++11 extension [-Wc++11-extensions]
+                        for(const auto& example : attributeCount){
+                                  ^
+id3.cpp:135:28: warning: range-based for loop is a C++11 extension [-Wc++11-extensions]
+                        for(const auto& example : attributeCount){
+                                                ^
+4 warnings generated.
+g++ -g -std=c++11 id3.o -o id3
+16:52:06 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+16:55:29 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp:130:8: error: expected expression
+                        for()
+                            ^
+id3.cpp:130:8: error: expected ';' in 'for' statement specifier
+id3.cpp:131:14: warning: 'auto' type specifier is a C++11 extension [-Wc++11-extensions]
+                        for(const auto& example : attributeCount){
+                                  ^
+id3.cpp:131:28: warning: range-based for loop is a C++11 extension [-Wc++11-extensions]
+                        for(const auto& example : attributeCount){
+                                                ^
+id3.cpp:138:14: warning: 'auto' type specifier is a C++11 extension [-Wc++11-extensions]
+                        for(const auto& example : attributeCount){
+                                  ^
+id3.cpp:138:28: warning: range-based for loop is a C++11 extension [-Wc++11-extensions]
+                        for(const auto& example : attributeCount){
+                                                ^
+4 warnings and 2 errors generated.
+make: *** [id3.o] Error 1
+17:18:18 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+17:24:53 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+17:38:25 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+21:55:30 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+21:55:43 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+21:56:30 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+21:56:47 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+22:05:29 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+22:06:34 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+22:12:19 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+22:13:41 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+22:15:08 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+22:17:00 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+22:33:57 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+make: *** [id3.o] Terminated: 15
+Command canceled
+22:34:03 **** Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -std=c++11 id3.o -o id3
+22:34:06 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+22:36:25 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+22:39:48 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+22:47:45 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+make: *** [id3.o] Terminated: 15
+Command canceled
+22:48:15 **** Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -std=c++11 id3.o -o id3
+22:48:20 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+22:59:25 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+23:04:12 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+23:12:44 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+23:12:55 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+23:14:18 **** Clean-only build of configuration Debug for project Assign1 ****
+make clean 
+rm *o id3
+23:14:20 **** Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+23:18:55 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp:141:13: error: no member named 'attribute' in 'TreeNode'
+                rootNode->attribute = -1;
+                ~~~~~~~~  ^
+1 error generated.
+make: *** [id3.o] Error 1
+23:19:07 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp:141:13: error: no member named 'attribute' in 'TreeNode'
+                rootNode->attribute = -1;
+                ~~~~~~~~  ^
+1 error generated.
+make: *** [id3.o] Error 1
+23:19:27 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+23:19:38 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+23:20:28 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:05:40 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp:267:18: error: no member named 'l' in 'TreeNode'
+                        if(childNode->l){
+                           ~~~~~~~~~  ^
+1 error generated.
+make: *** [id3.o] Error 1
+00:24:52 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+00:26:15 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:26:30 **** Clean-only build of configuration Debug for project Assign1 ****
+make clean 
+rm *o id3
+00:26:55 **** Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+00:27:47 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:28:37 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:28:52 **** Clean-only build of configuration Debug for project Assign1 ****
+make clean 
+rm *o id3
+00:28:55 **** Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+00:32:06 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:33:28 **** Clean-only build of configuration Debug for project Assign1 ****
+make clean 
+rm *o id3
+00:33:32 **** Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+00:33:41 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:47:45 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+00:47:56 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:47:59 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:48:01 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:48:03 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:48:06 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:48:08 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:48:09 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:48:11 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:48:14 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:48:16 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:48:17 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:48:19 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:48:20 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:48:21 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:48:23 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:49:49 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+00:49:55 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:50:01 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:50:03 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:50:04 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:50:06 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:50:07 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:50:08 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:50:13 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:50:14 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:50:16 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:50:17 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:50:19 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:50:44 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:50:46 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:51:49 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+00:51:56 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:51:58 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:52:16 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+00:52:20 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:52:21 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:52:23 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:52:25 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:54:21 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+00:54:26 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:56:24 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+00:56:49 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+01:01:37 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+01:03:53 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+01:07:42 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+01:07:49 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+01:08:09 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+01:08:12 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+01:08:14 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+01:08:15 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+01:08:17 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+01:08:18 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+01:08:19 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+01:08:21 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+01:08:22 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+01:08:23 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+01:08:36 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+01:08:39 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+01:08:40 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+01:08:41 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+01:08:43 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+01:08:44 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+01:09:14 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+01:09:20 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+01:09:35 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+01:09:39 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+01:10:17 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+01:11:26 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+01:14:01 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+01:21:56 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+01:22:43 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+01:22:55 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+01:29:48 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+01:32:50 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+01:34:42 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+01:41:04 **** Clean-only build of configuration Debug for project Assign1 ****
+make clean 
+rm *o id3
+01:41:12 **** Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+01:41:22 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+01:57:47 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+01:58:00 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+01:58:15 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+01:58:21 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+02:02:15 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+02:04:10 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+02:14:36 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp:7:10: fatal error: 'stdio' file not found
+#include <stdio>
+         ^
+1 error generated.
+make: *** [id3.o] Error 1
+02:14:50 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+02:16:34 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+02:16:51 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+02:17:33 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+02:17:38 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+02:17:43 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+02:17:45 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+02:17:47 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+02:17:49 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+02:17:54 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+02:18:00 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+02:18:37 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+02:19:51 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+02:19:58 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.

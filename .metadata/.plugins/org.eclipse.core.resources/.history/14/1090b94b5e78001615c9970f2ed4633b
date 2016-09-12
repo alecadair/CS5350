@@ -1,0 +1,100 @@
+/*
+ * id3.cpp
+ *
+ *  Created on: Sep 10, 2016
+ *      Author: adair
+ */
+#include <stdio.h>
+#include <iostream>
+#include <stdlib.h>
+#include <vector>
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <string>
+
+
+using namespace std;
+class TreeNode{
+public:
+	vector<TreeNode*> children;
+	bool isLeafNode;
+	//represents the vecor position of the attribute to be checked.
+	int attribute;
+	string value;
+};
+
+
+TreeNode* InduceTree(vector<vector<char> > dataTable, int attributes[]){
+	//create new root node
+	TreeNode* rootNode = new TreeNode;
+	/*
+	 * Base Case check for all similar labels.
+	 */
+	bool sameLabels = true;
+	string label = dataTable.at(0).at(dataTable.at(0).size() -1);
+	for(int i = 0; i < dataTable.size();i++){
+		vector<string> row = dataTable.at(i);
+		string labelCheck = row.at(row.size() -1);
+		//string labelCheck = dataTable.at(i).at(dataTable.at(i).size() -1 );
+		if(label.compare(labelCheck) != 0){
+			sameLabels = false;
+			break;
+		}
+	}
+	for(int i = 0; i < 4; i++){
+		cout << "Label\t" << dataTable.at(i).at(22) << endl;
+	}
+	if(sameLabels){
+		//
+		//TreeNode* leafNode = new TreeNode;
+		rootNode->isLeafNode = true;
+		rootNode->value = dataTable.at(0).at(22);
+	}
+	/*
+	 * Find attribute with most information gain
+	 *
+	 */
+	else{
+
+	}
+	//TreeNode* rootNode = new TreeNode;
+	return rootNode;
+}
+
+
+
+vector<vector<char> > ParseAndConstructTable(){
+	vector<vector<char> > dataTable;
+	//vector<string> data;
+	string line;
+	//stringstream iss;
+	//string token;
+	ifstream infile( "./datasets/SettingA/training.data");
+	if(infile.is_open()){
+		while(getline(infile,line)){
+			stringstream iss;
+			iss << line;
+			vector<char> data;
+			string token;
+			while(getline(iss,token, ',')){
+			//while(iss << line){
+				//data.push_back(token->c_);
+				data.push_back(token.c_str()[0]);
+			}
+			iss.clear();
+			dataTable.push_back(data);
+		}
+	}
+	return dataTable;
+}
+int main(int argc, char*argv[]){
+	vector<vector<char> > attributes;
+	attributes = ParseAndConstructTable();
+	int attsToCheck[22];
+	for(int i = 0; i < 22; i ++){
+		attsToCheck[i] = i;
+	}
+	TreeNode* rootNode = InduceTree(attributes, attsToCheck);
+	return 0;
+}

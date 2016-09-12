@@ -1,0 +1,23 @@
+/*
+ * id3.cpp
+ *
+ *  Created on: Sep 9, 2016
+ *      Author: alecadair
+ */
+#include <stdlib.h>
+#include <stdio.h>
+#include <iostream>
+using namespace std;
+
+class Node{
+public:
+	Node* children[];
+	bool attribute;
+};
+int main(int argc, char*argv[]){
+	cout << "hello" << endl;
+	int x = 3;
+	return 0;
+}
+
+
