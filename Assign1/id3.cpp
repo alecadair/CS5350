@@ -12,6 +12,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <string.h>
 #include <math.h>
 #include <map>
 #include <set>
@@ -26,6 +27,30 @@ public:
 	char label;
 	char value;
 };
+
+
+int TreeDepth(int level, vector<TreeNode*> children){
+	int depth = 0;
+	vector<int> depths;
+	if(children.empty()){
+		return level;
+	}
+	else{
+		for(int i = 0; i < children.size(); i++){
+			int childDepth = TreeDepth(level +1, children.at(i)->children);
+			//depths.push_back(childDepth);
+			if(childDepth > depth){
+				depth = childDepth;
+			}
+		}
+		return depth;
+	}
+	//return level;
+}
+int FindTreeDepth(TreeNode* node){
+	vector<TreeNode*> children;
+	return TreeDepth(0, node->children);
+}
 
 int CalculateBestAttribute(vector<vector<char> > dataTable,vector<int> attributes){
 	double highestInfoGain = 0;
@@ -138,7 +163,7 @@ TreeNode* InduceTree(vector<vector<char> > dataTable, vector<int> attributes){
 		int eCounter = 0;
 		int pCounter = 0;
 		for(int i = 0; i < dataTable.size(); i ++){
-			if(dataTable.at(i).at(22) == 'p'){
+			if(dataTable.at(i).at(dataTable.at(0).size() - 1) == 'p'){
 				pCounter ++;
 			}else{
 				eCounter ++;
@@ -207,13 +232,13 @@ TreeNode* InduceTree(vector<vector<char> > dataTable, vector<int> attributes){
 
 
 
-vector<vector<char> > ParseAndConstructTable(string filename){
-	vector<vector<char> > dataTable;
+vector<vector<char> > ParseAndConstructTable(string filename, vector<vector<char> > dataTable){
+	//vector<vector<char> > dataTable;
 	//vector<string> data;
 	string line;
 	//stringstream iss;
 	//string token;
-	ifstream infile(filename);
+	ifstream infile(filename.c_str());
 	//ifstream infile( "./datasets/SettingA/test.data");
 	if(infile.is_open()){
 		while(getline(infile,line)){
@@ -233,31 +258,51 @@ vector<vector<char> > ParseAndConstructTable(string filename){
 	return dataTable;
 }
 
-
-int main(int argc, char*argv[]){
+double SixFoldCrossValidation(){
 	vector<vector<char> > dataTable;
-	dataTable = ParseAndConstructTable("./datasets/SettingA/training.data");
-	vector<int> attsToCheck;
-	for(int i = 0; i < 22; i ++){
-		attsToCheck.push_back(i);
-	}
-	TreeNode* rootNode = InduceTree(dataTable, attsToCheck);
-	//tree built
+	for(int fold = 0; fold <= 5; fold ++){
+		for(int i = 0; i <= 5; i ++){
+			string filename = ".datasets/SettingA/CVSplits/training_0";// + i +".data";
+			//filename.append((string)i);
+			//string ind = to_string(i);
+			char num = '0' + i;
+			filename += num;
+			filename += ".data";
+			//std::itoa(i,ind.c_str(),10);
+			//filename.append(ind);
 
-	//test tree on test data
-	vector<vector<char> > testData = ParseAndConstructTable("./datasets/SettingA/test.data");
-	int testCount = 0;
+			if(!(i == fold)){
+				dataTable = ParseAndConstructTable(filename.c_str(),dataTable);
+			}
+		}
+		vector<int> attsToCheck;
+		for(int i = 0; i < 22; i++){
+			attsToCheck.push_back(i);
+		}
+		TreeNode* root = InduceTree(dataTable,attsToCheck);
+		//string trainingData = ".datasets/SettingA/CVSplits/training_0"+fold+".data";
+
+	}
+}
+
+double Test(vector<vector<char> > testData, TreeNode* rootNode){
+	long testCount = 0;
 	vector<char> resultVector;
+	int badRow = 0;
 	for(int i = 0; i < testData.size(); i++){
 		vector<char> testPoint = testData.at(i);
 		TreeNode* currentNode = rootNode;
-		while(!currentNode->isLeafNode){
-			int currentAttInd = currentNode->attributeIndex;
+		while((!currentNode->children.empty()) && (!currentNode->isLeafNode)){
+			if(badRow == 143){
+				cout << "Bad row" << endl;
+			}
+			long currentAttInd = currentNode->attributeIndex;
 			for(int j = 0; j < currentNode->children.size(); j++){
 				char childIndex = currentNode->children.at(j)->value;
 				char testIndex = testPoint.at(currentAttInd);
 				if(childIndex == testIndex){
 					currentNode = currentNode->children.at(j);
+					badRow++;
 					break;
 				}
 			}
@@ -266,8 +311,8 @@ int main(int argc, char*argv[]){
 	}
 	vector<char> trueVector;
 	for(int i = 0; i < testData.size(); i ++){
-		trueVector.push_back(testData.at(i).at(testData.at(i).size() - 1));
-	}
+			trueVector.push_back(testData.at(i).at(testData.at(i).size() - 1));
+		}
 	double hits = 0;
 	double misses = 0;
 	double totalTries = 0;
@@ -281,10 +326,74 @@ int main(int argc, char*argv[]){
 		}
 		totalTries++;
 	}
+	return hits/totalTries;
+}
 
-	cout << "Total Hits: " << hits  << " / " << totalTries << endl;
-	cout << "Total Miss: " << misses << " / "<< totalTries << endl;
-	cout << "Proportion of hits: %" << (hits/totalTries)*100 << endl;
+int main(int argc, char*argv[]){
+	vector<vector<char> > dataTable;
+	dataTable = ParseAndConstructTable("./datasets/SettingA/training.data", dataTable);
+	vector<int> attsToCheck;
+	for(int i = 0; i < 22; i ++){
+		attsToCheck.push_back(i);
+	}
+	TreeNode* rootNode = InduceTree(dataTable, attsToCheck);
+	cout << "Largest Depth: " << FindTreeDepth(rootNode) << endl;
+	//tree built
+	//test tree on test data
+	vector<vector<char> > data;
+	vector<vector<char> > testData = ParseAndConstructTable("./datasets/SettingA/test.data", data);
+	long testCount = 0;
+	vector<char> resultVector;
+	int badRow = 0;
+	float test = Test(testData,rootNode);
+	cout << test << endl;
+//	for(int i = 0; i < testData.size(); i++){
+//		vector<char> testPoint = testData.at(i);
+//		TreeNode* currentNode = rootNode;
+//		while((!currentNode->children.empty()) && (!currentNode->isLeafNode)){
+//			if(badRow == 143){
+//				cout << "Bad row" << endl;
+//			}
+//		//while(!currentNode->isLeafNode){
+//			long currentAttInd = currentNode->attributeIndex;
+//			for(int j = 0; j < currentNode->children.size(); j++){
+//				char childIndex = currentNode->children.at(j)->value;
+//				char testIndex = testPoint.at(currentAttInd);
+//				if(childIndex == testIndex){
+//					currentNode = currentNode->children.at(j);
+//					badRow++;
+//					break;
+//				}
+//			}
+//			//resultVector.push_back('e');
+//
+//			//break;
+//			//cout << badRow <<endl;\
+//			break;
+//		}
+//		resultVector.push_back(currentNode->label);
+//	}
+//	vector<char> trueVector;
+//	for(int i = 0; i < testData.size(); i ++){
+//		trueVector.push_back(testData.at(i).at(testData.at(i).size() - 1));
+//	}
+//	double hits = 0;
+//	double misses = 0;
+//	double totalTries = 0;
+//	double proportionGood;
+//	for(int i = 0; i < testData.size(); i ++){
+//		if(trueVector.at(i) == resultVector.at(i)){
+//			hits ++;
+//		}
+//		else{
+//			misses ++;
+//		}
+//		totalTries++;
+//	}
+
+//	cout << "Total Hits: " << hits  << " / " << totalTries << endl;
+//	cout << "Total Miss: " << misses << " / "<< totalTries << endl;
+//	cout << "Proportion of hits: %" << (hits/totalTries)*100 << endl;
 
 	return 0;
 }

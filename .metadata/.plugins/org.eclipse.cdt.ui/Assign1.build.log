@@ -1,6 +1,7 @@
-02:19:58 **** Incremental Build of configuration Debug for project Assign1 ****
+15:58:45 **** Incremental Build of configuration Debug for project Assign1 ****
 make all 
-make: Nothing to be done for `all'.
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
 
-02:19:58 Build Finished (took 74ms)
+15:58:45 Build Finished (took 410ms)
 

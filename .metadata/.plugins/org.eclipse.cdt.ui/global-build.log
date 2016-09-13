@@ -964,3 +964,468 @@ g++ -g -std=c++11 id3.o -o id3
 02:19:58 **** Incremental Build of configuration Debug for project Assign1 ****
 make all 
 make: Nothing to be done for `all'.
+11:48:53 **** Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp: In function ‘std::vector<std::vector<char> > ParseAndConstructTable(std::string)’:
+id3.cpp:216:26: error: no matching function for call to ‘std::basic_ifstream<char>::basic_ifstream(std::string&)’
+  ifstream infile(filename);
+                          ^
+id3.cpp:216:26: note: candidates are:
+In file included from id3.cpp:11:0:
+/usr/include/c++/4.8.2/fstream:467:7: note: std::basic_ifstream<_CharT, _Traits>::basic_ifstream(const char*, std::ios_base::openmode) [with _CharT = char; _Traits = std::char_traits<char>; std::ios_base::openmode = std::_Ios_Openmode]
+       basic_ifstream(const char* __s, ios_base::openmode __mode = ios_base::in)
+       ^
+/usr/include/c++/4.8.2/fstream:467:7: note:   no known conversion for argument 1 from ‘std::string {aka std::basic_string<char>}’ to ‘const char*’
+/usr/include/c++/4.8.2/fstream:453:7: note: std::basic_ifstream<_CharT, _Traits>::basic_ifstream() [with _CharT = char; _Traits = std::char_traits<char>]
+       basic_ifstream() : __istream_type(), _M_filebuf()
+       ^
+/usr/include/c++/4.8.2/fstream:453:7: note:   candidate expects 0 arguments, 1 provided
+/usr/include/c++/4.8.2/fstream:427:11: note: std::basic_ifstream<char>::basic_ifstream(const std::basic_ifstream<char>&)
+     class basic_ifstream : public basic_istream<_CharT, _Traits>
+           ^
+/usr/include/c++/4.8.2/fstream:427:11: note:   no known conversion for argument 1 from ‘std::string {aka std::basic_string<char>}’ to ‘const std::basic_ifstream<char>&’
+make: *** [id3.o] Error 1
+11:50:00 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+11:50:13 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+11:50:16 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+11:50:17 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+11:50:18 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+11:50:18 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+11:50:19 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+11:50:48 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+11:50:51 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+11:51:01 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+12:02:27 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+12:04:51 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+12:04:53 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+12:05:24 **** Clean-only build of configuration Debug for project Assign1 ****
+make clean 
+rm *o id3
+12:05:26 **** Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+12:05:55 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+12:06:11 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+12:06:18 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+12:06:35 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+12:07:33 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+12:11:09 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+12:11:12 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+13:03:21 **** Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+13:35:40 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+13:37:08 **** Clean-only build of configuration Debug for project Assign1 ****
+make clean 
+rm *o id3
+13:37:14 **** Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+13:37:17 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+13:37:57 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+13:39:08 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+13:39:51 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+13:40:22 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+13:40:53 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+13:42:54 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+13:43:05 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+13:43:51 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+13:44:41 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+13:49:31 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+13:50:02 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+13:50:24 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+13:52:03 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+13:52:05 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+13:52:05 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+13:52:07 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+13:52:07 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+13:54:02 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+14:09:13 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp: In function ‘int FindTreeDepth(TreeNode*)’:
+id3.cpp:32:36: error: ‘TreeDepth’ was not declared in this scope
+  return TreeDepth(0, node->children);
+                                    ^
+make: *** [id3.o] Error 1
+14:09:43 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp: In function ‘int FindTreeDepth(TreeNode*)’:
+id3.cpp:32:36: error: ‘TreeDepth’ was not declared in this scope
+  return TreeDepth(0, node->children);
+                                    ^
+make: *** [id3.o] Error 1
+14:10:03 **** Clean-only build of configuration Debug for project Assign1 ****
+make clean 
+rm *o id3
+14:10:05 **** Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+14:10:08 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+14:12:37 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+14:12:39 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+14:12:57 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+14:23:21 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+14:23:22 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+14:23:36 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+14:24:36 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+14:25:02 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+14:27:33 **** Clean-only build of configuration Debug for project Assign1 ****
+make clean 
+rm *o id3
+14:27:35 **** Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+14:31:12 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+14:31:32 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+14:31:34 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+14:31:36 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+14:32:45 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+14:33:20 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+14:33:26 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+14:33:34 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+14:35:37 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+14:47:31 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp: In function ‘int main(int, char**)’:
+id3.cpp:267:72: error: too few arguments to function ‘std::vector<std::vector<char> > ParseAndConstructTable(std::string, std::vector<std::vector<char> >)’
+  dataTable = ParseAndConstructTable("./datasets/SettingB/training.data");
+                                                                        ^
+id3.cpp:234:23: note: declared here
+ vector<vector<char> > ParseAndConstructTable(string filename, vector<vector<char> > dataTable){
+                       ^
+make: *** [id3.o] Error 1
+14:47:37 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp: In function ‘int main(int, char**)’:
+id3.cpp:267:72: error: too few arguments to function ‘std::vector<std::vector<char> > ParseAndConstructTable(std::string, std::vector<std::vector<char> >)’
+  dataTable = ParseAndConstructTable("./datasets/SettingB/training.data");
+                                                                        ^
+id3.cpp:234:23: note: declared here
+ vector<vector<char> > ParseAndConstructTable(string filename, vector<vector<char> > dataTable){
+                       ^
+make: *** [id3.o] Error 1
+14:48:14 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+14:48:18 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+14:48:34 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+14:48:51 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+14:48:58 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+14:50:12 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+14:50:14 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+14:50:29 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+14:51:45 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+14:52:20 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+14:54:09 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+15:03:43 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+15:04:33 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+15:41:58 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp: In function ‘double SixFoldCrossValidation()’:
+id3.cpp:264:68: error: invalid operands of types ‘const char*’ and ‘const char [6]’ to binary ‘operator+’
+    string filename = ".datasets/SettingA/CVSplits/training_0" + i +".data";
+                                                                    ^
+id3.cpp:274:71: error: invalid operands of types ‘const char*’ and ‘const char [6]’ to binary ‘operator+’
+   string trainingData = ".datasets/SettingA/CVSplits/training_0"+fold+".data";
+                                                                       ^
+make: *** [id3.o] Error 1
+15:44:55 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp: In function ‘double SixFoldCrossValidation()’:
+id3.cpp:265:20: error: ‘to_string’ is not a member of ‘std’
+    filename.append(std::to_string(i));
+                    ^
+id3.cpp:276:71: error: invalid operands of types ‘const char*’ and ‘const char [6]’ to binary ‘operator+’
+   string trainingData = ".datasets/SettingA/CVSplits/training_0"+fold+".data";
+                                                                       ^
+make: *** [id3.o] Error 1
+15:47:06 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp: In function ‘double SixFoldCrossValidation()’:
+id3.cpp:265:17: error: ‘to_string’ is not a member of ‘std’
+    string ind = std::to_string(i);
+                 ^
+id3.cpp:277:71: error: invalid operands of types ‘const char*’ and ‘const char [6]’ to binary ‘operator+’
+   string trainingData = ".datasets/SettingA/CVSplits/training_0"+fold+".data";
+                                                                       ^
+make: *** [id3.o] Error 1
+15:50:22 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp: In function ‘double SixFoldCrossValidation()’:
+id3.cpp:265:28: error: invalid conversion from ‘int’ to ‘const char*’ [-fpermissive]
+    filename.append((string)i);
+                            ^
+In file included from /usr/include/c++/4.8.2/string:53:0,
+                 from /usr/include/c++/4.8.2/bits/locale_classes.h:40,
+                 from /usr/include/c++/4.8.2/bits/ios_base.h:41,
+                 from /usr/include/c++/4.8.2/ios:42,
+                 from /usr/include/c++/4.8.2/ostream:38,
+                 from /usr/include/c++/4.8.2/iostream:39,
+                 from id3.cpp:8:
+/usr/include/c++/4.8.2/bits/basic_string.tcc:212:5: error:   initializing argument 1 of ‘std::basic_string<_CharT, _Traits, _Alloc>::basic_string(const _CharT*, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]’ [-fpermissive]
+     basic_string<_CharT, _Traits, _Alloc>::
+     ^
+id3.cpp:266:17: error: ‘to_string’ is not a member of ‘std’
+    string ind = std::to_string(i);
+                 ^
+make: *** [id3.o] Error 1
+15:53:18 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp: In function ‘double SixFoldCrossValidation()’:
+id3.cpp:267:17: error: ‘itoa’ was not declared in this scope
+    itoa(i,ind,10);
+                 ^
+make: *** [id3.o] Error 1
+15:53:21 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp: In function ‘double SixFoldCrossValidation()’:
+id3.cpp:267:17: error: ‘itoa’ was not declared in this scope
+    itoa(i,ind,10);
+                 ^
+make: *** [id3.o] Error 1
+15:54:06 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp: In function ‘double SixFoldCrossValidation()’:
+id3.cpp:268:17: error: ‘itoa’ was not declared in this scope
+    itoa(i,ind,10);
+                 ^
+make: *** [id3.o] Error 1
+15:56:08 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp: In function ‘double SixFoldCrossValidation()’:
+id3.cpp:268:4: error: ‘itoa’ is not a member of ‘std’
+    std::itoa(i,ind.c_str(),10);
+    ^
+make: *** [id3.o] Error 1
+15:56:44 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp: In function ‘double SixFoldCrossValidation()’:
+id3.cpp:267:28: error: ‘to_string’ was not declared in this scope
+    string ind = to_string(i);
+                            ^
+id3.cpp:268:4: error: ‘itoa’ is not a member of ‘std’
+    std::itoa(i,ind.c_str(),10);
+    ^
+make: *** [id3.o] Error 1
+15:56:45 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp: In function ‘double SixFoldCrossValidation()’:
+id3.cpp:267:28: error: ‘to_string’ was not declared in this scope
+    string ind = to_string(i);
+                            ^
+id3.cpp:268:4: error: ‘itoa’ is not a member of ‘std’
+    std::itoa(i,ind.c_str(),10);
+    ^
+make: *** [id3.o] Error 1
+15:56:46 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp: In function ‘double SixFoldCrossValidation()’:
+id3.cpp:267:28: error: ‘to_string’ was not declared in this scope
+    string ind = to_string(i);
+                            ^
+id3.cpp:268:4: error: ‘itoa’ is not a member of ‘std’
+    std::itoa(i,ind.c_str(),10);
+    ^
+make: *** [id3.o] Error 1
+15:58:18 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp: In function ‘double SixFoldCrossValidation()’:
+id3.cpp:267:28: error: ‘to_string’ was not declared in this scope
+    string ind = to_string(i);
+                            ^
+make: *** [id3.o] Error 1
+15:58:45 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
