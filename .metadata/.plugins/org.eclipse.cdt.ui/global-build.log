@@ -1429,3 +1429,330 @@ make: *** [id3.o] Error 1
 make all 
 g++ -g -c id3.cpp
 g++ -g -std=c++11 id3.o -o id3
+18:12:34 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+18:13:02 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+19:49:31 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp:286:19: error: use of undeclared identifier 'Test'
+                double misses = Test(dataTable,root);
+                                ^
+1 error generated.
+make: *** [id3.o] Error 1
+19:50:29 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp:286:19: error: use of undeclared identifier 'Test'
+                double misses = Test(dataTable,root);
+                                ^
+1 error generated.
+make: *** [id3.o] Error 1
+19:51:27 **** Clean-only build of configuration Debug for project Assign1 ****
+make clean 
+rm *o id3
+rm: *o: No such file or directory
+make: *** [clean] Error 1
+19:51:34 **** Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp:335:1: warning: control reaches end of non-void function [-Wreturn-type]
+}
+^
+1 warning generated.
+g++ -g -std=c++11 id3.o -o id3
+20:09:54 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+20:10:43 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp:337:1: warning: control reaches end of non-void function [-Wreturn-type]
+}
+^
+id3.cpp:356:37: error: expected '}'
+        int depths[8] ={1,2,3,4, 5, 10, 15 20};
+                                           ^
+id3.cpp:356:17: note: to match this '{'
+        int depths[8] ={1,2,3,4, 5, 10, 15 20};
+                       ^
+1 warning and 1 error generated.
+make: *** [id3.o] Error 1
+20:12:04 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp:337:1: warning: control reaches end of non-void function [-Wreturn-type]
+}
+^
+1 warning generated.
+g++ -g -std=c++11 id3.o -o id3
+20:22:01 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp:352:20: error: no matching function for call to 'InduceTree'
+                TreeNode* root = InduceTree(dataTable,attsToCheck);
+                                 ^~~~~~~~~~
+id3.cpp:136:11: note: candidate function not viable: requires 4 arguments, but 2 were provided
+TreeNode* InduceTree(vector<vector<char> > dataTable, vector<int> attributes, int MaxDepth, int level){
+          ^
+id3.cpp:368:23: error: no matching function for call to 'InduceTree'
+        TreeNode* rootNode = InduceTree(dataTable, attsToCheck);
+                             ^~~~~~~~~~
+id3.cpp:136:11: note: candidate function not viable: requires 4 arguments, but 2 were provided
+TreeNode* InduceTree(vector<vector<char> > dataTable, vector<int> attributes, int MaxDepth, int level){
+          ^
+2 errors generated.
+make: *** [id3.o] Error 1
+20:23:04 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp:359:1: warning: control reaches end of non-void function [-Wreturn-type]
+}
+^
+1 warning generated.
+g++ -g -std=c++11 id3.o -o id3
+21:10:56 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+21:11:10 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp:367:39: error: invalid operands to binary expression ('float' and 'float')
+                v += (errorsPerK.at(i) - totalError)^2;
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+1 error generated.
+make: *** [id3.o] Error 1
+21:11:45 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp:367:39: error: invalid operands to binary expression ('float' and 'float')
+                v += (errorsPerK.at(i) - totalError)^2;
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+1 error generated.
+make: *** [id3.o] Error 1
+21:12:23 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp:367:39: error: invalid operands to binary expression ('float' and 'float')
+                v += (errorsPerK.at(i) - totalError)^2;
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+1 error generated.
+make: *** [id3.o] Error 1
+21:12:38 **** Clean-only build of configuration Debug for project Assign1 ****
+make clean 
+rm *o id3
+rm: *o: No such file or directory
+make: *** [clean] Error 1
+21:12:41 **** Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+21:12:50 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+21:13:25 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+21:15:04 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+21:15:09 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+21:16:59 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+21:17:28 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+21:19:12 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+21:19:25 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+21:19:56 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+21:23:50 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+21:25:06 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+21:26:05 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+21:26:47 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+21:26:58 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+21:28:27 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+21:29:17 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+21:29:58 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+21:30:05 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+21:31:31 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+21:33:06 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+21:33:42 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+21:34:38 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+21:37:18 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp:268:9: error: cannot initialize a variable of type 'char **' with an rvalue of type 'const value_type *' (aka 'const char *')
+        char** fileName = filename.c_str();
+               ^          ~~~~~~~~~~~~~~~~
+1 error generated.
+make: *** [id3.o] Error 1
+21:37:30 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp:268:9: error: cannot initialize a variable of type 'char **' with an rvalue of type 'const value_type *' (aka 'const char *')
+        char** fileName = filename.c_str();
+               ^          ~~~~~~~~~~~~~~~~
+1 error generated.
+make: *** [id3.o] Error 1
+21:37:41 **** Clean-only build of configuration Debug for project Assign1 ****
+make clean 
+rm *o id3
+rm: *o: No such file or directory
+make: *** [clean] Error 1
+21:37:42 **** Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp:268:9: error: cannot initialize a variable of type 'char **' with an rvalue of type 'const value_type *' (aka 'const char *')
+        char** fileName = filename.c_str();
+               ^          ~~~~~~~~~~~~~~~~
+1 error generated.
+make: *** [id3.o] Error 1
+21:37:54 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp:268:8: error: cannot initialize a variable of type 'char *' with an rvalue of type 'const value_type *' (aka 'const char *')
+        char* fileName = filename.c_str();
+              ^          ~~~~~~~~~~~~~~~~
+1 error generated.
+make: *** [id3.o] Error 1
+21:38:05 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp:268:8: error: cannot initialize a variable of type 'char *' with an rvalue of type 'const value_type *' (aka 'const char *')
+        char* fileName = filename.c_str();
+              ^          ~~~~~~~~~~~~~~~~
+1 error generated.
+make: *** [id3.o] Error 1
+21:38:10 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+21:38:18 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+21:39:10 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+21:39:29 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+21:40:32 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+21:43:54 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+21:44:02 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp:370:19: error: no matching function for call to 'Test'
+                double misses = Test(dataTable,root);
+                                ^~~~
+id3.cpp:291:8: note: candidate function not viable: requires 3 arguments, but 2 were provided
+double Test(vector<vector<char> > testData, TreeNode* rootNode, int depth){
+       ^
+id3.cpp:405:15: error: no matching function for call to 'Test'
+        float test = Test(testData,rootNode);
+                     ^~~~
+id3.cpp:291:8: note: candidate function not viable: requires 3 arguments, but 2 were provided
+double Test(vector<vector<char> > testData, TreeNode* rootNode, int depth){
+       ^
+2 errors generated.
+make: *** [id3.o] Error 1
+21:44:54 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp:370:19: error: no matching function for call to 'Test'
+                double misses = Test(dataTable,root);
+                                ^~~~
+id3.cpp:291:8: note: candidate function not viable: requires 3 arguments, but 2 were provided
+double Test(vector<vector<char> > testData, TreeNode* rootNode, int depth){
+       ^
+1 error generated.
+make: *** [id3.o] Error 1
+21:45:10 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+21:45:16 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+21:45:25 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+21:45:42 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+21:47:04 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+make: Nothing to be done for `all'.
+21:48:54 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+22:10:35 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+id3.cpp:359:4: error: use of undeclared identifier 'filename'
+                        filename += num;
+                        ^
+id3.cpp:360:4: error: use of undeclared identifier 'filename'
+                        filename += ".data";
+                        ^
+id3.cpp:365:40: error: use of undeclared identifier 'filename'
+                                dataTable = ParseAndConstructTable(filename,dataTable);
+                                                                   ^
+3 errors generated.
+make: *** [id3.o] Error 1
+22:11:04 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3
+22:12:35 **** Incremental Build of configuration Debug for project Assign1 ****
+make all 
+g++ -g -c id3.cpp
+g++ -g -std=c++11 id3.o -o id3

@@ -1,7 +1,7 @@
-15:58:45 **** Incremental Build of configuration Debug for project Assign1 ****
+22:12:35 **** Incremental Build of configuration Debug for project Assign1 ****
 make all 
 g++ -g -c id3.cpp
 g++ -g -std=c++11 id3.o -o id3
 
-15:58:45 Build Finished (took 410ms)
+22:12:40 Build Finished (took 5s.7ms)
 

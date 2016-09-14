@@ -29,7 +29,7 @@ public:
 };
 
 
-int TreeDepth(int level, vector<TreeNode*> children){
+int CalculateTreeDepth(int level, vector<TreeNode*> children){
 	int depth = 0;
 	vector<int> depths;
 	if(children.empty()){
@@ -37,7 +37,7 @@ int TreeDepth(int level, vector<TreeNode*> children){
 	}
 	else{
 		for(int i = 0; i < children.size(); i++){
-			int childDepth = TreeDepth(level +1, children.at(i)->children);
+			int childDepth = CalculateTreeDepth(level +1, children.at(i)->children);
 			//depths.push_back(childDepth);
 			if(childDepth > depth){
 				depth = childDepth;
@@ -49,7 +49,7 @@ int TreeDepth(int level, vector<TreeNode*> children){
 }
 int FindTreeDepth(TreeNode* node){
 	vector<TreeNode*> children;
-	return TreeDepth(0, node->children);
+	return CalculateTreeDepth(0, node->children);
 }
 
 int CalculateBestAttribute(vector<vector<char> > dataTable,vector<int> attributes){
@@ -133,7 +133,7 @@ int CalculateBestAttribute(vector<vector<char> > dataTable,vector<int> attribute
 }
 
 
-TreeNode* InduceTree(vector<vector<char> > dataTable, vector<int> attributes){
+TreeNode* InduceTree(vector<vector<char> > dataTable, vector<int> attributes, int MaxDepth, int level){
 	//create new root node
 	TreeNode* rootNode = new TreeNode;
 	rootNode->isLeafNode = false;
@@ -141,7 +141,13 @@ TreeNode* InduceTree(vector<vector<char> > dataTable, vector<int> attributes){
 	 * Base Case check for all similar labels.
 	 */
 	bool sameLabels = true;
-	char label = dataTable.at(0).at(dataTable.at(0).size() -1);
+	char label;
+	if(!dataTable.empty()){
+		label = dataTable.at(0).at(dataTable.at(0).size() -1);
+	}
+	else{
+		sameLabels = false;
+	}
 	for(int i = 0; i < dataTable.size();i++){
 		vector<char> row = dataTable.at(i);
 		char labelCheck = row.at(row.size() -1);
@@ -220,9 +226,32 @@ TreeNode* InduceTree(vector<vector<char> > dataTable, vector<int> attributes){
 						attributeSubset.push_back(toPush);
 					}
 				}
-				TreeNode* child = InduceTree(subset,attributeSubset);
-				child->value = *iter;
-				rootNode->children.push_back(child);
+				if(level <= MaxDepth){
+					TreeNode* child = InduceTree(subset,attributeSubset,MaxDepth, level+1);
+					child->value = *iter;
+					rootNode->children.push_back(child);
+				}
+				else{
+					TreeNode* leafNode = new TreeNode;
+					rootNode->children.push_back(leafNode);
+					leafNode->isLeafNode = true;
+					int eCounter = 0;
+					int pCounter = 0;
+					for(int i = 0; i < dataTable.size(); i++){
+						if(dataTable.at(i).at(dataTable.at(i).size() - 1) == 'e'){
+							eCounter ++;
+						}else{
+							pCounter ++;
+						}
+					}
+					if(eCounter > pCounter){
+						leafNode->value = 'e';
+					}else{
+						leafNode->value = 'p';
+					}
+					leafNode->attributeIndex = 23;
+					return rootNode;
+				}
 			}
 		}
 		return rootNode;
@@ -236,9 +265,10 @@ vector<vector<char> > ParseAndConstructTable(string filename, vector<vector<char
 	//vector<vector<char> > dataTable;
 	//vector<string> data;
 	string line;
+	const char* fileName = filename.c_str();
 	//stringstream iss;
 	//string token;
-	ifstream infile(filename.c_str());
+	ifstream infile(fileName);
 	//ifstream infile( "./datasets/SettingA/test.data");
 	if(infile.is_open()){
 		while(getline(infile,line)){
@@ -257,45 +287,17 @@ vector<vector<char> > ParseAndConstructTable(string filename, vector<vector<char
 	}
 	return dataTable;
 }
-
-double SixFoldCrossValidation(){
-	vector<vector<char> > dataTable;
-	for(int fold = 0; fold <= 5; fold ++){
-		for(int i = 0; i <= 5; i ++){
-			string filename = ".datasets/SettingA/CVSplits/training_0";// + i +".data";
-			//filename.append((string)i);
-			//string ind = to_string(i);
-			char num = '0' + i;
-			filename += num;
-			filename += ".data";
-			//std::itoa(i,ind.c_str(),10);
-			//filename.append(ind);
-
-			if(!(i == fold)){
-				dataTable = ParseAndConstructTable(filename.c_str(),dataTable);
-			}
-		}
-		vector<int> attsToCheck;
-		for(int i = 0; i < 22; i++){
-			attsToCheck.push_back(i);
-		}
-		TreeNode* root = InduceTree(dataTable,attsToCheck);
-		//string trainingData = ".datasets/SettingA/CVSplits/training_0"+fold+".data";
-
-	}
-}
-
-double Test(vector<vector<char> > testData, TreeNode* rootNode){
+//
+double Test(vector<vector<char> > testData, TreeNode* rootNode, int depth){
 	long testCount = 0;
 	vector<char> resultVector;
 	int badRow = 0;
+	int depthCounter;
 	for(int i = 0; i < testData.size(); i++){
 		vector<char> testPoint = testData.at(i);
 		TreeNode* currentNode = rootNode;
 		while((!currentNode->children.empty()) && (!currentNode->isLeafNode)){
-			if(badRow == 143){
-				cout << "Bad row" << endl;
-			}
+
 			long currentAttInd = currentNode->attributeIndex;
 			for(int j = 0; j < currentNode->children.size(); j++){
 				char childIndex = currentNode->children.at(j)->value;
@@ -306,13 +308,19 @@ double Test(vector<vector<char> > testData, TreeNode* rootNode){
 					break;
 				}
 			}
+			depthCounter++;
+			if(depthCounter > depth + 1){
+				break;
+			}
 		}
-		resultVector.push_back(currentNode->label);
+		//if(!(depthCounter > depth + 1)){
+			resultVector.push_back(currentNode->label);
+		//}
 	}
 	vector<char> trueVector;
 	for(int i = 0; i < testData.size(); i ++){
 			trueVector.push_back(testData.at(i).at(testData.at(i).size() - 1));
-		}
+	}
 	double hits = 0;
 	double misses = 0;
 	double totalTries = 0;
@@ -326,7 +334,61 @@ double Test(vector<vector<char> > testData, TreeNode* rootNode){
 		}
 		totalTries++;
 	}
-	return hits/totalTries;
+	return misses;
+}
+
+double SixFoldCrossValidation(int depth, char setting){
+	vector<double> foldErrors;
+	double totalMisses = 0;
+	double totalSamples = 0;
+	int m = 0;
+	vector<double> errorsPerK;
+	float totalTries = 0;
+	int dataTableSize = 0;
+	for(int fold = 0; fold <= 5; fold ++){
+		vector<vector<char> > dataTable;
+		for(int i = 0; i <= 5; i ++){
+			string filename;
+			if(setting == 'a'){
+				filename = "./datasets/SettingA/CVSplits/training_0";// + i +".data";
+			}else{
+				filename = "./datasets/SettingB/CVSplits/training_0";// + i +".data";
+			}
+			//filename.append((string)i);
+			//string ind = to_string(i);
+			char num = '0' + i;
+			filename += num;
+			filename += ".data";
+			//std::itoa(i,ind.c_str(),10);
+			//filename.append(ind);
+			//dataTable = ParseAndConstructTable(filename,dataTable);
+			if(!(i == fold)){
+				dataTable = ParseAndConstructTable(filename,dataTable);
+				dataTableSize = dataTable.size();
+			}
+		}
+		vector<int> attsToCheck;
+		for(int i = 0; i < 22; i++){
+			attsToCheck.push_back(i);
+		}
+		TreeNode* root = InduceTree(dataTable,attsToCheck, depth, 0);
+		double misses = Test(dataTable,root,depth);
+		double size = dataTable.size();
+		double error = misses/size;
+		errorsPerK.push_back(error);		//string trainingData = ".datasets/SettingA/CVSplits/training_0"+fold+".data";
+	}
+	double totalError = 0;
+	for(int i = 0; i < errorsPerK.size();i++){
+		totalError = totalError +errorsPerK.at(i);
+	}
+	totalError = totalError/(errorsPerK.size());
+	double v = 0;
+	for(int i = 0; i < errorsPerK.size();i++){
+		v += ((errorsPerK.at(i) - totalError)*(errorsPerK.at(i) - totalError));
+	}
+	v = v/(errorsPerK.size() -1);
+	cout <<depth<<"\t"<< 1-totalError << "\t" << v<< endl;
+	return v;
 }
 
 int main(int argc, char*argv[]){
@@ -336,7 +398,7 @@ int main(int argc, char*argv[]){
 	for(int i = 0; i < 22; i ++){
 		attsToCheck.push_back(i);
 	}
-	TreeNode* rootNode = InduceTree(dataTable, attsToCheck);
+	TreeNode* rootNode = InduceTree(dataTable, attsToCheck, 100,0);
 	cout << "Largest Depth: " << FindTreeDepth(rootNode) << endl;
 	//tree built
 	//test tree on test data
@@ -345,51 +407,24 @@ int main(int argc, char*argv[]){
 	long testCount = 0;
 	vector<char> resultVector;
 	int badRow = 0;
-	float test = Test(testData,rootNode);
-	cout << test << endl;
-//	for(int i = 0; i < testData.size(); i++){
-//		vector<char> testPoint = testData.at(i);
-//		TreeNode* currentNode = rootNode;
-//		while((!currentNode->children.empty()) && (!currentNode->isLeafNode)){
-//			if(badRow == 143){
-//				cout << "Bad row" << endl;
-//			}
-//		//while(!currentNode->isLeafNode){
-//			long currentAttInd = currentNode->attributeIndex;
-//			for(int j = 0; j < currentNode->children.size(); j++){
-//				char childIndex = currentNode->children.at(j)->value;
-//				char testIndex = testPoint.at(currentAttInd);
-//				if(childIndex == testIndex){
-//					currentNode = currentNode->children.at(j);
-//					badRow++;
-//					break;
-//				}
-//			}
-//			//resultVector.push_back('e');
-//
-//			//break;
-//			//cout << badRow <<endl;\
-//			break;
-//		}
-//		resultVector.push_back(currentNode->label);
-//	}
-//	vector<char> trueVector;
-//	for(int i = 0; i < testData.size(); i ++){
-//		trueVector.push_back(testData.at(i).at(testData.at(i).size() - 1));
-//	}
-//	double hits = 0;
-//	double misses = 0;
-//	double totalTries = 0;
-//	double proportionGood;
-//	for(int i = 0; i < testData.size(); i ++){
-//		if(trueVector.at(i) == resultVector.at(i)){
-//			hits ++;
-//		}
-//		else{
-//			misses ++;
-//		}
-//		totalTries++;
-//	}
+	//float test = Test(testData,rootNode, depth);
+	int depths [] = {1,2,3,4, 5, 10, 15, 20};
+	cout <<"Setting A" << endl;
+	cout <<"Depth\tAvg CV accuracy\tStd Dev\t" << endl;
+	for(int i = 0; i < 8; i++){
+		int depth = depths[i];
+		double error = SixFoldCrossValidation(depth, 'a');
+		//double accuracy = 1 - error;
+	}
+	cout << endl;
+
+	cout <<"Setting B" << endl;
+	cout <<"Depth\tAvg CV accuracy\tStd Dev\t" << endl;
+	for(int i = 0; i < 8; i++){
+		int depth = depths[i];
+		double error = SixFoldCrossValidation(depth, 'b');
+		//double accuracy = 1 - error;
+	}
 
 //	cout << "Total Hits: " << hits  << " / " << totalTries << endl;
 //	cout << "Total Miss: " << misses << " / "<< totalTries << endl;
