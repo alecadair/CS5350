@@ -202,7 +202,7 @@ int main(){
 	vector<vector<string> > names;
 	vector<vector<bool> > attribute_table;
 	vector<bool> labels;
-	populate_table(&names, &attribute_table, &labels, "./Updated_Dataset/Updated_CVSplits/updated_training00.txt");
+	populate_table(&names, &attribute_table, &labels, "./Updated_Dataset/all_training.txt");
 	ID3 id3(names,attribute_table,labels);
 	Node tree = id3.induce_tree();
 	TreeFunctions tree_functions;
