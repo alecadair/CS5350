@@ -24,6 +24,15 @@ unsigned TreeFunctions :: get_depth_of_tree(Node node){
 	return largest_depth + 1;
 }
 
-bool TreeFunctions :: calculate_label(vector<string> name){
 
+bool TreeFunctions :: calculate_label(Node tree, vector<string> name, vector<bool> attributes){
+	if(tree.is_leaf)
+		return tree.label;
+	bool path = attributes[tree.attribute];
+	bool label = false;
+	if(path)
+		label = calculate_label(tree.children[0], name,attributes);
+	else
+		label = calculate_label(tree.children[1], name, attributes);
+	return label;
 }

@@ -40,6 +40,7 @@ Node ID3::id3_algorithm(vector<vector<string> > names,
 			same_labels = false;
 	}
 	Node new_root;
+	new_root.is_leaf = false;
 	if(same_labels){
 		new_root.is_leaf = true;
 		new_root.label = labels[0];
@@ -106,9 +107,9 @@ Node ID3::id3_algorithm(vector<vector<string> > names,
 					neg_count ++;
 			}
 			if(pos_count > neg_count)
-				new_node.label = false;
-			else
 				new_node.label = true;
+			else
+				new_node.label = false;
 			new_node.is_leaf = true;
 			new_root.children.push_back(new_node);
 		}else{

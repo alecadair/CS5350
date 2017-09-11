@@ -89,6 +89,9 @@ bool a3(vector<string> name){
 /*second letter of first name is a vowel*/
 bool a4(vector<string> name){
 	char vowels[] = {'a','e','i','o','u'};
+	if(name.at(0).size() < 2){
+		return false;
+	}
 	char second_letter = name.at(0).at(1);
 	second_letter = tolower(second_letter);
 	for(int i = 0; i < 5; i++){
@@ -136,15 +139,15 @@ void populate_attribute_table(){
 
 }
 
-void populate_table(vector<string>* names, vector<vector<bool> >* attribute_table,
+//returns test file labels
+vector<bool> populate_table(vector<vector<string> >* names, vector<vector<bool> >* attribute_table,
 										vector<bool>* labels, const char* file_name){
 	string line;
-//	vector<vector<bool> > attribute_table;
-//	vector<vector<string> >		  names;
-//	vector<bool>		  labels;
-	const char* file_name =  "./Updated_Dataset/updated_train.txt";
+	string label;
+	vector<bool> test_labels;
 	ifstream training_file(file_name);
-	if(training_file.is_open()){
+	//ifstream test_file_stream(file_name);
+	if(training_file.is_open() /*&& test_file_stream.is_open()*/){
 		//long line_counter = 0;
 		while(getline(training_file,line)){
 			stringstream line_stream(line);
@@ -153,34 +156,42 @@ void populate_table(vector<string>* names, vector<vector<bool> >* attribute_tabl
 			string label;
 			line_stream >> label;
 			if(label == "+")
-				labels.push_back(true);
+				labels->push_back(true);
 			else
-				labels.push_back(false);
+				labels->push_back(false);
 			//split string by whitespace
 			for(string s; line_stream >> s;){
 				tokens.push_back(s);
+				//cout << s << " ";
 			//	cout << s << endl;
 			}
-			names.push_back(tokens);
+			//cout << "\n";
+			names->push_back(tokens);
+
 			//cout << line << "\n" << endl;
 		}
+
 		//labels and names are now filled
 		//fill attribute table
 		//populate_attribute_table();
-		for(unsigned i = 0; i < names.size(); i++){
+		for(unsigned i = 0; i < names->size(); i++){
 			vector<bool> instance;
-			instance.push_back(a0(names[i]));
-			instance.push_back(a1(names[i]));
-			instance.push_back(a2(names[i]));
-			instance.push_back(a3(names[i]));
-			instance.push_back(a4(names[i]));
-			instance.push_back(a5(names[i]));
-			instance.push_back(a6(names[i]));
-			instance.push_back(a7(names[i]));
-
-			attribute_table.push_back(instance);
+			cout << "\n";
+			instance.push_back(a0(names->at(i)));
+			instance.push_back(a1(names->at(i)));
+			instance.push_back(a2(names->at(i)));
+			instance.push_back(a3(names->at(i)));
+			instance.push_back(a4(names->at(i)));
+			instance.push_back(a5(names->at(i)));
+			instance.push_back(a6(names->at(i)));
+			instance.push_back(a7(names->at(i)));
+			attribute_table->push_back(instance);
+			for(unsigned j = 0; j < names->at(i).size(); j++){
+					cout << names->at(i).at(j) << " ";
+			}
 		}
 	}
+	return test_labels;
 }
 
 void test_tree(Node tree){
@@ -188,12 +199,47 @@ void test_tree(Node tree){
 }
 
 int main(){
-	populate_table();
+	vector<vector<string> > names;
+	vector<vector<bool> > attribute_table;
+	vector<bool> labels;
+	populate_table(&names, &attribute_table, &labels, "./Updated_Dataset/Updated_CVSplits/updated_training00.txt");
 	ID3 id3(names,attribute_table,labels);
 	Node tree = id3.induce_tree();
 	TreeFunctions tree_functions;
 	unsigned depth_of_tree = tree_functions.get_depth_of_tree(tree);
+	vector<vector<string> > test_names;
+	vector<vector<bool> > test_attributes;
+	vector<bool> test_labels;
+
+	populate_table(&test_names,&test_attributes,&test_labels,"./Updated_Dataset/updated_test.txt");
+
+	vector<bool> experiment_labels;
 	cout << "tree depth: " << depth_of_tree << endl;
-	test_tree(tree);
+	for(unsigned i = 0; i < test_names.size(); i ++){
+		vector<string> test_name = test_names[i];
+		bool label = tree_functions.calculate_label(tree,test_name,test_attributes[i]);
+		experiment_labels.push_back(label);
+	}
+	float correct_labels = 0, incorrect_labels = 0;
+	for(unsigned i = 0; i < experiment_labels.size(); i++){
+		if(experiment_labels[i] == test_labels[i])
+			correct_labels ++;
+		else
+			incorrect_labels ++;
+	}
+	float correct_percent = correct_labels/(correct_labels + incorrect_labels);
+	float incorrect_percent = 1 - correct_percent;
+	correct_percent *= 100; incorrect_percent *= 100;
+	cout << "Correct Percentage:\t" << correct_percent << "\nIncorrect Percentage:\t" << incorrect_percent<< endl;
 	return 0;
 }
+
+
+
+
+
+
+
+
+
+
