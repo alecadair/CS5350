@@ -65,7 +65,7 @@ Node ID3::id3_algorithm(vector<vector<string> > names,
             else
                 new_root.label = false;
             return new_root;
-    }
+         }
 	for(unsigned i = 0; i < attribute_table[0].size(); i++){
 		if(in_skip_list(skip_list,i) == false){
 			double temp = calculate_info_gain(attribute_table,labels,skip_list,i);

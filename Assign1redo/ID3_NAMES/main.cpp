@@ -15,6 +15,7 @@
 #include <string>
 #include <sstream>
 #include "id3.h"
+#include "tree_functions.h"
 
 
 /*
@@ -43,11 +44,6 @@ class DecisionTree{
 	AttributeNode root_node;
 	AttributeNode induce_tree();
 };
-
-vector<vector<bool> > attribute_table;
-vector<vector<string> >		  names;
-vector<bool>		  labels;
-
 
 AttributeNode DecisionTree::induce_tree(){
 	AttributeNode node;
@@ -137,24 +133,16 @@ bool a7(vector<string> name){
 }
 
 void populate_attribute_table(){
-	for(unsigned i = 0; i < names.size(); i++){
-		vector<bool> instance;
-		instance.push_back(a0(names[i]));
-		instance.push_back(a1(names[i]));
-		instance.push_back(a2(names[i]));
-		instance.push_back(a3(names[i]));
-		instance.push_back(a4(names[i]));
-		instance.push_back(a5(names[i]));
-		instance.push_back(a6(names[i]));
-		instance.push_back(a7(names[i]));
 
-		attribute_table.push_back(instance);
-	}
 }
 
-void populate_table(){
+void populate_table(vector<string>* names, vector<vector<bool> >* attribute_table,
+										vector<bool>* labels, const char* file_name){
 	string line;
-	const char* file_name =  "./Updated_Dataset/Updated_CVSplits/updated_training00.txt";
+//	vector<vector<bool> > attribute_table;
+//	vector<vector<string> >		  names;
+//	vector<bool>		  labels;
+	const char* file_name =  "./Updated_Dataset/updated_train.txt";
 	ifstream training_file(file_name);
 	if(training_file.is_open()){
 		//long line_counter = 0;
@@ -178,16 +166,34 @@ void populate_table(){
 		}
 		//labels and names are now filled
 		//fill attribute table
-		populate_attribute_table();
+		//populate_attribute_table();
+		for(unsigned i = 0; i < names.size(); i++){
+			vector<bool> instance;
+			instance.push_back(a0(names[i]));
+			instance.push_back(a1(names[i]));
+			instance.push_back(a2(names[i]));
+			instance.push_back(a3(names[i]));
+			instance.push_back(a4(names[i]));
+			instance.push_back(a5(names[i]));
+			instance.push_back(a6(names[i]));
+			instance.push_back(a7(names[i]));
+
+			attribute_table.push_back(instance);
+		}
 	}
+}
+
+void test_tree(Node tree){
+
 }
 
 int main(){
 	populate_table();
 	ID3 id3(names,attribute_table,labels);
 	Node tree = id3.induce_tree();
-	int i = 0;
-	i++;
-	i--;
-	return i;
+	TreeFunctions tree_functions;
+	unsigned depth_of_tree = tree_functions.get_depth_of_tree(tree);
+	cout << "tree depth: " << depth_of_tree << endl;
+	test_tree(tree);
+	return 0;
 }
