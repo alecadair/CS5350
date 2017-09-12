@@ -176,7 +176,7 @@ vector<bool> populate_table(vector<vector<string> >* names, vector<vector<bool> 
 		//populate_attribute_table();
 		for(unsigned i = 0; i < names->size(); i++){
 			vector<bool> instance;
-			cout << "\n";
+			//cout << "\n";
 			instance.push_back(a0(names->at(i)));
 			instance.push_back(a1(names->at(i)));
 			instance.push_back(a2(names->at(i)));
@@ -187,7 +187,7 @@ vector<bool> populate_table(vector<vector<string> >* names, vector<vector<bool> 
 			instance.push_back(a7(names->at(i)));
 			attribute_table->push_back(instance);
 			for(unsigned j = 0; j < names->at(i).size(); j++){
-					cout << names->at(i).at(j) << " ";
+			//		cout << names->at(i).at(j) << " ";
 			}
 		}
 	}
@@ -202,9 +202,10 @@ int main(){
 	vector<vector<string> > names;
 	vector<vector<bool> > attribute_table;
 	vector<bool> labels;
-	populate_table(&names, &attribute_table, &labels, "./Updated_Dataset/all_training.txt");
+	//unsigned max_depth = 4;
+	populate_table(&names, &attribute_table, &labels, "./Updated_Dataset/updated_train.txt");
 	ID3 id3(names,attribute_table,labels);
-	Node tree = id3.induce_tree();
+	Node tree = id3.induce_tree(10);
 	TreeFunctions tree_functions;
 	unsigned depth_of_tree = tree_functions.get_depth_of_tree(tree);
 	vector<vector<string> > test_names;
@@ -217,7 +218,8 @@ int main(){
 	cout << "tree depth: " << depth_of_tree << endl;
 	for(unsigned i = 0; i < test_names.size(); i ++){
 		vector<string> test_name = test_names[i];
-		bool label = tree_functions.calculate_label(tree,test_name,test_attributes[i]);
+		vector<bool> test_attribute = test_attributes[i];
+		bool label = tree_functions.calculate_label(tree,test_name,test_attribute);
 		experiment_labels.push_back(label);
 	}
 	float correct_labels = 0, incorrect_labels = 0;
@@ -230,7 +232,71 @@ int main(){
 	float correct_percent = correct_labels/(correct_labels + incorrect_labels);
 	float incorrect_percent = 1 - correct_percent;
 	correct_percent *= 100; incorrect_percent *= 100;
+	cout << "Max Depth:\t" << depth_of_tree << endl;
 	cout << "Correct Percentage:\t" << correct_percent << "\nIncorrect Percentage:\t" << incorrect_percent<< endl;
+
+	/*
+	 * 4-Fold cross validation
+	 */
+	unsigned max_depths[] = {1,2,3,4,5};
+	const char* file_names[] = {"./Updated_Dataset/CVSplits/updated_training00.txt",
+								"./Updated_Dataset/CVSplits/updated_training01.txt",
+								"./Updated_Dataset/CVSplits/updated_training02.txt",
+								"./Updated_Dataset/CVSplits/updated_training03.txt"};
+	//create data tables for different files
+	vector<vector<string> > all_names[4];
+	vector<vector<bool> >   all_attribute_tables[4];
+	vector<bool> all_labels[4];
+	//populate tables
+	for(unsigned i = 0; i < 4; i ++){
+		populate_table(&all_names[i],&all_attribute_tables[i], &all_labels[i],file_names[i]);
+	}
+
+	/*
+	 * Run 4-fold cross validation
+	 */
+
+	for(unsigned i = 0; i < 4; i++){
+		unsigned max_depth = max_depths[i];
+		ID3 test_id3(all_names[i],all_attribute_tables[i],all_labels[i]);
+		Node test_node = test_id3.induce_tree(max_depth);
+
+		//concatenate test data
+		vector<vector<string> > concat_names;
+		vector<vector<bool> >   concat_attributes;
+		vector<bool>            concat_labels;
+		for(unsigned j = 0; j < 4; j++){
+			if(j != i){
+				for(unsigned k = 0; k < all_labels[j].size(); k ++){
+					concat_names.push_back(all_names[j].at(k));
+					concat_attributes.push_back(all_attribute_tables[j].at(k));
+					concat_labels.push_back(all_labels[j].at(k));
+				}
+			}
+		}
+
+		//test accuracy
+		double total_tests = 0, total_positives = 0, total_negatives = 0;
+		for(unsigned j = 0; j < concat_labels.size(); j++){
+			vector<string> exp_name = concat_names.at(i);
+			vector<bool>   exp_attr = concat_attributes.at(i);
+			bool label = tree_functions.calculate_label(test_node,exp_name,exp_attr);
+			if(label == concat_labels.at(i))
+				total_positives ++;
+			else
+				total_negatives ++;
+			total_tests ++;
+		}
+		double accuracy = total_positives/(total_tests);
+		double missed = 1 - accuracy;
+
+		cout << "Training on data set training 0" << i << endl;
+		cout << "Maximum Depth\t" << max_depth << endl;
+
+		cout << "Accuracy:\t" << accuracy << endl;
+		cout << "Inaccuracy:\t" << missed << endl;
+
+	}
 	return 0;
 }
 

@@ -28,12 +28,13 @@ public:
 	ID3(std::vector<std::vector<std::string> > _names,
 			std::vector<std::vector<bool> > _attribute_table,
 			std::vector<bool> _labels);
-	Node induce_tree();
+	Node induce_tree(unsigned max_depth);
 
 private:
 	Node id3_algorithm(std::vector<std::vector<std::string> > names,
 						std::vector<std::vector<bool> > attribute_table,
-						std::vector<bool> labels, std::vector<int> _skip_list);
+						std::vector<bool> labels, std::vector<int> _skip_list, unsigned max_depth,
+							unsigned current_depth);
 
 	double calculate_info_gain(std::vector<std::vector<bool> > attribute_table,
 								std::vector<bool> labels,
