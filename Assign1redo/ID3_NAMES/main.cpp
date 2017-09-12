@@ -12,6 +12,7 @@
 #include <string.h>
 #include <fstream>
 #include <string.h>
+#include <math.h>
 #include <string>
 #include <sstream>
 #include "id3.h"
@@ -217,7 +218,7 @@ int main() {
 			"./Updated_Dataset/updated_test.txt");
 
 	vector<bool> experiment_labels;
-	cout << "tree depth: " << depth_of_tree << endl;
+	cout << "tree depth: " << depth_of_tree << "\n" <<endl;
 	for (unsigned i = 0; i < test_names.size(); i++) {
 		vector<string> test_name = test_names[i];
 		vector<bool> test_attribute = test_attributes[i];
@@ -269,7 +270,8 @@ int main() {
 	 * Run 4-fold cross validation
 	 */
 
-	for (unsigned i = 0; i < 4; i++) {
+	vector<double> accuracies[6];
+	for (unsigned i = 0; i < 6; i++) {
 		unsigned max_depth = max_depths[i];
 		//		ID3 test_id3(all_names[i],all_attribute_tables[i],all_labels[i]);
 		//		Node test_node = test_id3.induce_tree(max_depth);
@@ -310,14 +312,36 @@ int main() {
 			}
 			double accuracy = total_positives / (total_tests);
 			double missed = 1 - accuracy;
-
+			accuracies[i].push_back(accuracy);
 			cout << "Training on data set training 0" << j << endl;
 			cout << "Maximum Depth\t" << max_depth << endl;
 
 			cout << "Accuracy:\t" << accuracy << endl;
 			cout << "Inaccuracy:\t" << missed << endl;
+			cout << "\n";
 		}
+		//calculate and report standard deviation
+		double mean = 0;
+		for(int j = 0; j < accuracies[i].size(); i++){
+			mean += accuracies[i].at(j);
+		}
+		mean = mean/accuracies[i].size();
+		cout << "Mean for Max Depth " << max_depth << " = " << mean << endl;
+		vector<double> std_devs = accuracies[i];
+		for(unsigned j = 0; j < std_devs.size(); j++){
+			std_devs[j] -= mean;
+			std_devs[j] *= std_devs[j];
+		}
+		double sum_of_squares = 0;
+		for(unsigned j = 0; j < std_devs.size(); j++){
+			sum_of_squares += std_devs[j];
+		}
+		double std_dev = sum_of_squares/std_devs.size();
+		std_dev = sqrt(std_dev);
+		cout << "Standard deviation for Max Depth " << max_depth << " = " << std_dev << endl;
 	}
+
+	//report standard deviation of each depth
 	return 0;
 }
 
