@@ -122,6 +122,7 @@ bool a6(vector<string> name) {
 		}
 	}
 	return true;
+	//return false;
 }
 
 /*first letter of first and last name are the same*/
@@ -324,12 +325,20 @@ int main() {
 			cout << "\n";
 		}
 	}
+	float greatest_accuracy = 0;
+	unsigned accuracy_index = 0;
+	vector<float> means;
 	for(unsigned i = 0; i < 6; i++){
 		double mean = 0;
 		for (unsigned j = 0; j < accuracies[i].size(); j++) {
 			mean += accuracies[i].at(j);
 		}
 		mean = mean / accuracies[i].size();
+		means.push_back(mean);
+		if(greatest_accuracy <= mean){
+			greatest_accuracy = mean;
+		}
+		accuracy_index = i;
 		cout << "Mean accuracy for max depth =  " << max_depths[i] << " = " << mean << endl;
 		vector<double> std_devs = accuracies[i];
 		for (unsigned j = 0; j < std_devs.size(); j++) {
@@ -346,6 +355,52 @@ int main() {
 				<< std_dev << "\n" << endl;
 	}
 
+
+	/*
+	 * Perform final training and test
+	 */
+
+	;
+	vector<vector<string> > final_names_train;
+	vector<vector<bool> > final_attrs_train;
+	vector<bool> final_labels_train;
+
+	vector<vector<string> > final_names_test;
+	vector<vector<bool> > final_attrs_test;
+	vector<bool> final_labels_test;
+
+	populate_table(&final_names_train, &final_attrs_train, &final_labels_train, "./Updated_Dataset/updated_train.txt");
+	populate_table(&final_names_test, &final_attrs_test, &final_labels_test, "./Updated_Dataset/updated_test.txt");
+
+	ID3 final_id3(final_names_train,final_attrs_train,final_labels_train);
+	Node final_node =final_id3.induce_tree(3);
+
+	double total_tests = 0, total_positives = 0, total_negatives = 0;
+
+
+
+	for(unsigned k = 0; k < final_labels_test.size(); k++) {
+		vector<string> exp_name = final_names_test.at(k);
+		vector<bool> exp_attr = final_attrs_test.at(k);
+		bool label = tree_functions.calculate_label(final_node,
+				exp_name, exp_attr);
+		if (label == final_labels_test.at(k))
+			total_positives++;
+		else
+			total_negatives++;
+		total_tests++;
+	}
+	double accuracy = total_positives / (total_tests);
+	double missed = 1 - accuracy;
+
+	cout << "Training on train.data" << endl;
+	cout << "Testing with test.data" << endl;
+	cout << "Best calculated maximum depth maximum depth\t" << 3 << endl;
+
+	cout << "Accuracy:\t" << accuracy << endl;
+	cout << "Inaccuracy:\t" << missed << endl;
+	cout << "Number of tests:\t" << total_tests << endl;
+	cout << "\n";
 	//report standard deviation of each depth
 	return 0;
 }
