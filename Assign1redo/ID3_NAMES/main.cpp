@@ -35,6 +35,8 @@
 using namespace std;
 //
 
+unsigned max_depths[] = { 1, 2, 3, 4, 5, 10 };
+
 class AttributeNode {
 	char attribute;
 	vector<AttributeNode> branches;
@@ -218,7 +220,7 @@ int main() {
 			"./Updated_Dataset/updated_test.txt");
 
 	vector<bool> experiment_labels;
-	cout << "tree depth: " << depth_of_tree << "\n" <<endl;
+	//cout << "tree depth: " << depth_of_tree << "\n" <<endl;
 	for (unsigned i = 0; i < test_names.size(); i++) {
 		vector<string> test_name = test_names[i];
 		vector<bool> test_attribute = test_attributes[i];
@@ -245,7 +247,7 @@ int main() {
 	/*
 	 * 4-Fold cross validation
 	 */
-	unsigned max_depths[] = { 1, 2, 3, 4, 5, 10 };
+//	unsigned max_depths[] = { 1, 2, 3, 4, 5, 10 };
 	char* file_names[] = {
 			"./Updated_Dataset/Updated_CVSplits/updated_training00.txt",
 			"./Updated_Dataset/Updated_CVSplits/updated_training01.txt",
@@ -313,32 +315,35 @@ int main() {
 			double accuracy = total_positives / (total_tests);
 			double missed = 1 - accuracy;
 			accuracies[i].push_back(accuracy);
-			cout << "Training on data set training 0" << j << endl;
+			cout << "Training on data set training0" << j <<"\n" << endl;
 			cout << "Maximum Depth\t" << max_depth << endl;
 
 			cout << "Accuracy:\t" << accuracy << endl;
 			cout << "Inaccuracy:\t" << missed << endl;
+			cout << "Number of tests:\t" << total_tests << endl;
 			cout << "\n";
 		}
-		//calculate and report standard deviation
+	}
+	for(unsigned i = 0; i < 6; i++){
 		double mean = 0;
-		for(int j = 0; j < accuracies[i].size(); i++){
+		for (unsigned j = 0; j < accuracies[i].size(); j++) {
 			mean += accuracies[i].at(j);
 		}
-		mean = mean/accuracies[i].size();
-		cout << "Mean for Max Depth " << max_depth << " = " << mean << endl;
+		mean = mean / accuracies[i].size();
+		cout << "Mean accuracy for max depth =  " << max_depths[i] << " = " << mean << endl;
 		vector<double> std_devs = accuracies[i];
-		for(unsigned j = 0; j < std_devs.size(); j++){
+		for (unsigned j = 0; j < std_devs.size(); j++) {
 			std_devs[j] -= mean;
 			std_devs[j] *= std_devs[j];
 		}
 		double sum_of_squares = 0;
-		for(unsigned j = 0; j < std_devs.size(); j++){
+		for (unsigned j = 0; j < std_devs.size(); j++) {
 			sum_of_squares += std_devs[j];
 		}
-		double std_dev = sum_of_squares/std_devs.size();
+		double std_dev = sum_of_squares / std_devs.size();
 		std_dev = sqrt(std_dev);
-		cout << "Standard deviation for Max Depth " << max_depth << " = " << std_dev << endl;
+		cout << "Standard deviation for Max Depth " << max_depths[i] << " = "
+				<< std_dev << "\n" << endl;
 	}
 
 	//report standard deviation of each depth
