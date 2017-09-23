@@ -71,7 +71,7 @@ void update_weights(vector<double>* weights, vector<double> feature,
 		double label, double r) {
 	double dot_prod = dot_product(*weights, feature);
 	double y = 0;
-	if (dot_prod <= 0)
+	if (dot_prod < 0)
 		y = -1;
 	else
 		y = 1;
@@ -94,7 +94,7 @@ double perceptron(double* total, double* pos, double* neg,
 		unsigned char mod = rand_num %2;
 		random = (double) rand_num;
 		//random =(double) rand_num%(1000);
-		random = (random / (100000));
+		random = (random / (10000));
 		if(mod)
 			random *= -1;
 		weights.at(i) = random;
