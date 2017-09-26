@@ -101,17 +101,18 @@ vector<double> initialize_weights(){
 }
 
 bool update_weights(vector<double>* weights, vector<double> feature,
-		double label, double r) {
+		double label, double r, double margin, vector<double>* averaged_weights) {
 	double dot_prod = dot_product(*weights, feature);
 	double num_updates = 0;
 	double y = 0;
-	if (dot_prod <= 0)
+	if (dot_prod < margin)
 		y = -1;
 	else
 		y = 1;
 	if (y != label) {
 		for(unsigned i = 0; i < weights->size(); i++){
 			weights->at(i) = weights->at(i) + r*label*feature[i];
+			averaged_weights->at(i) = (averaged_weights->at(i) + weights->at(i))/2;
 		}
 		return true;
 	}
@@ -130,7 +131,7 @@ double test_file_against_weights(double* total, double* pos, double* neg, vector
 			//	test_example[NUM_FEATURES -1] = 1;
 				double dot_prod = dot_product(*weights, test_example);
 				double test_label = 0;
-				if (dot_prod <= 0)
+				if (dot_prod < 0)
 					test_label = -1;
 				else
 					test_label = 1;
@@ -142,6 +143,7 @@ double test_file_against_weights(double* total, double* pos, double* neg, vector
 			}
 			test_stream.close();
 		}
+		test_stream.close();
 		double accuracy = positives / total_tests;
 		*total = total_tests;
 		*pos = positives;
@@ -150,7 +152,8 @@ double test_file_against_weights(double* total, double* pos, double* neg, vector
 }
 
 void perceptron(vector<double>* weights,vector<string> training_files,
-								double learning_rate, double* num_updates) {
+								double learning_rate, double* num_updates, double margin,
+										vector<double>* averaged_weights) {
 	//run perceptron
 	for (unsigned i = 0; i < training_files.size(); i++) {
 		ifstream tf_stream(training_files[i]);
@@ -164,17 +167,19 @@ void perceptron(vector<double>* weights,vector<string> training_files,
 				vector<double> example(NUM_FEATURES, 0);
 				example[example.size() -1] = 1;
 				get_example_from_data(line, &example, &label);
-				if(update_weights(weights, example, label, learning_rate))
+				if(update_weights(weights, example, label, learning_rate, margin, averaged_weights))
 					*num_updates += 1;
 				line_num ++;
 			}
 		}
+		tf_stream.close();
 		//cout << "\tNumber of Updates for file: " << training_files[i] << "\t" << *num_updates << endl;
 	}
 	//cout << endl;
 }
 
-void five_fold_cross_validation(double learning_rate, double* num_updates, vector<double>* weights) {
+double five_fold_cross_validation(double learning_rate, double* num_updates, vector<double>* weights,
+										double margin, vector<double>* averaged_weights){
 	//unsigned NUM_RATES = 3;
 	//double rates[3] = { 1, .1, .01 };
 	//run 5-fold cross validation on perceptron
@@ -185,6 +190,8 @@ void five_fold_cross_validation(double learning_rate, double* num_updates, vecto
 			"./Dataset/CVSplits/training04.data" };
 	//vector<string> file_names = {"./Dataset/phishing.train", "./Dataset/phishing.train"};
 	double mean_accuracy = 0;
+	vector<double> accuracies;
+	double accuracy = 0;
 	//for (unsigned rate_index = 0; rate_index < NUM_RATES; rate_index++) {
 	for (unsigned i = 0; i < file_names.size(); i++) {
 		string test_file = file_names[i];
@@ -196,11 +203,14 @@ void five_fold_cross_validation(double learning_rate, double* num_updates, vecto
 			}
 		}
 		double total = 0, pos = 0, neg = 0;
+
 		//vector<double> temp(NUM_FEATURES,0);
-		*weights = initialize_weights();
+		//*weights = initialize_weights();
 		//double learning_rate = rates[rate_index];
-		perceptron(weights, training_files, learning_rate, num_updates);
+		perceptron(weights, training_files, learning_rate, num_updates,margin, averaged_weights);
+		accuracy += test_file_against_weights(&total,&pos,&neg,weights,test_file);
 	}
+	return accuracy/((float)file_names.size());
 }
 
 double test_perceptron(string test_file, double r, double* num_updates){
@@ -214,7 +224,7 @@ double test_perceptron(string test_file, double r, double* num_updates){
 	return accuracy;
 }
 
-void run_test_suite(unsigned variant){
+double run_test_suite(unsigned variant, double margin, vector<double>* averaged_weights){
 	//run simple perceptron
 	double rates[3] = {1,.1,.01};
 	double num_rates = 3;
@@ -223,41 +233,51 @@ void run_test_suite(unsigned variant){
 	//cout << "Running and Training with Simple Perceptron" << endl;
 	vector<double> accuracies(3, 0);
 	//vector<vector<double> > weights_table
-	cout << "Running cross validation for ten epochs for each hyper-parameter." << endl;
+	cout << "Running cross validation for ten epochs for each learning rate." << endl;
+	vector<double> weights(NUM_FEATURES,0);
 	for(unsigned i = 0; i < num_rates; i ++){
-		vector<double> weights = initialize_weights();
+		weights = initialize_weights();
 		double curr_accuracy = 0;
 		for(unsigned j = 0; j < 10; j++){
 			double learning_rate = rates[i];
-			if(variant == DYNAMIC){
+			if(variant == DYNAMIC || variant == MARGIN){
 				learning_rate = learning_rate/(1+j);
 			}
 			/*curr_accuracy =*/
-			five_fold_cross_validation(learning_rate, &num_updates,&weights);
+			double temp = 0;
+			temp =five_fold_cross_validation(learning_rate, &num_updates,&weights, margin, averaged_weights);
+			curr_accuracy += temp;
+			cout << "(r = " << learning_rate << ", t = " << j << ") ";
+			cout <<"accuracy = " << temp << endl;
 		}
+		cout << endl;
 		double total = 0, pos = 0, neg = 0;
-		curr_accuracy = test_file_against_weights(&total,&pos,&neg,&weights,"./Dataset/phishing.dev");
-		accuracies.at(i) = (curr_accuracy);
+		//curr_accuracy = test_file_against_weights(&total,&pos,&neg,&weights,"./Dataset/phishing.test");
+		accuracies.at(i) = (curr_accuracy/(10));
 		cout <<"\tAccuracy for rate " << rates[i] <<": "<< accuracies[i]  << endl;
 	}
 
 	double max_accuracy = 0;
 	unsigned accuracy_index = 0;
-	for(unsigned i = 0; i < accuracies.size(); i++){
-		if(accuracies[i] >= max_accuracy){
-			max_accuracy = accuracies[i];
-			accuracy_index = i;
-		}
-	}
+	max_accuracy = find_max(accuracies,&accuracy_index);
+//	for(unsigned i = 0; i < accuracies.size(); i++){
+//		if(accuracies[i] >= max_accuracy){
+//			max_accuracy = accuracies[i];
+//			accuracy_index = i;
+//		}
+//	}
 	//cout << "Simple Perceptron" << endl;
 	cout << "Max Accuracy:\t" << max_accuracy << endl;
 	double max_rate = rates[accuracy_index];
 	cout << "Best learning rate:\t" << max_rate << endl;
+	if(variant == MARGIN){
+		return max_rate;
+	}
 	num_updates = 0;
 	double simple_accuracy = test_perceptron("./Dataset/phishing.dev", max_rate,&num_updates);
 	//cout << "Number of updates for "
 	//run training for 20 epochs with best learning rat>
-	vector<double> weights = initialize_weights();
+	/*vector<double>*/ weights = initialize_weights();
 	num_updates = 0;
 	vector<string> training_file_vec;
 	vector<vector<double> > weight_vectors;
@@ -268,12 +288,17 @@ void run_test_suite(unsigned variant){
 
 	for(unsigned i = 0; i < 20; i++){
 		double curr_accuracy = 0, total = 0, pos = 0, neg = 0;
-		perceptron(&weights,training_file_vec,max_rate,&num_updates);
+		double dyn_rate = 0;
+		if(variant == DYNAMIC)
+			dyn_rate = 1/(1+i);
+		else
+			dyn_rate = max_rate;
+		perceptron(&weights,training_file_vec,dyn_rate,&num_updates, margin);
 		curr_accuracy = test_file_against_weights(&total, &pos, &neg, &weights, "./Dataset/phishing.dev");
 		training_accuracies.push_back(curr_accuracy);
 		weight_vectors.push_back(weights);
 		cout << "Epoch " << i <<" accuracy - " << curr_accuracy;
-		cout << "\tupdates: " << num_updates << endl;
+		cout << "\tupdates: " << num_updates << " Learning Rate: " << dyn_rate << endl;
 	}
 	unsigned max_index = 0;
 	double highest_acc = find_max(training_accuracies,&max_index);
@@ -282,6 +307,7 @@ void run_test_suite(unsigned variant){
 	double test_accuracy = 0, total = 0, pos = 0, neg = 0;
 	test_accuracy = test_file_against_weights(&total, &pos, &neg, &best_classifier, "./Dataset/phishing.test");
 	cout << "Accuracy for phishing.test " <<test_accuracy <<endl << endl;
+	return test_accuracy;
 }
 
 void dynamic_learning(){
@@ -291,16 +317,34 @@ void dynamic_learning(){
 	double num_rates = 3;
 	double num_updates = 0;
 	double t = 0; //time step
-	run_test_suite(DYNAMIC);
-	for(unsigned i = 0; i < 3; i++){
-		double learning_rate = rates[i];
-	}
+	run_test_suite(DYNAMIC, 0);
 }
 
+void margin_perceptron(){
+	cout << "Running and training on Margin Perceptron" << endl;
+	vector<double> margins, rates;
+	margins.push_back(1); margins.push_back(.1); margins.push_back(.01);
+	rates.push_back(1); rates.push_back(.1); rates.push_back(.01);
+	for(unsigned i = 0; i < margins.size(); i ++)
+		run_test_suite(MARGIN,margins[i]);
+
+}
+
+void averaged_perceptron(){
+	vector<double> weights = initialize_weights();
+	vector<double> averaged_weights(NUM_FEATURES, 0);
+	averaged_weights = weights;
+	run_test_suit(AVERAGED,0,averaged_weights);
+}
+
+void simple_perceptron(){
+	run_test_suite(SIMPLE,0);
+}
 int main(int argc, char** argv) {
 	cout << "Running and Training with Simple Perceptron" << endl;
-	run_test_suite(0);
+	simple_perceptron();
 	dynamic_learning();
+	margin_perceptron();
 	return 0;
 }
 
