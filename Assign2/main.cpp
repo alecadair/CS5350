@@ -14,7 +14,10 @@
 #include <fstream>
 
 #define NUM_FEATURES 70 //includes bias
-
+#define SIMPLE 0
+#define DYNAMIC 1
+#define MARGIN 2
+#define AVERAGED 3
 using namespace std;
 
 const string TRAINING_FILE = "./Dataset/phishing.train";
@@ -186,7 +189,6 @@ void five_fold_cross_validation(double learning_rate, double* num_updates, vecto
 	for (unsigned i = 0; i < file_names.size(); i++) {
 		string test_file = file_names[i];
 		vector<string> training_files;
-
 		//fill test files vector for perceptron
 		for (unsigned j = 0; j < file_names.size(); j++) {
 			if (j != i) {
@@ -194,21 +196,11 @@ void five_fold_cross_validation(double learning_rate, double* num_updates, vecto
 			}
 		}
 		double total = 0, pos = 0, neg = 0;
+		//vector<double> temp(NUM_FEATURES,0);
+		*weights = initialize_weights();
 		//double learning_rate = rates[rate_index];
 		perceptron(weights, training_files, learning_rate, num_updates);
-		//double accuracy = test_file_against_weights(&total, &pos, &neg, weights,test_file);
-		//cout << "Learning Rate:\t" << learning_rate << endl;
-		//cout << "Test File: " << training_files[i] << endl;
-		//cout << "Accuracy:\t" << accuracy << "\t" << pos << "/" << total
-		//<< endl;
-		//cout << "Inaccuracy:\t" << (1 - accuracy) << endl;
-		//cout << endl;
-		//mean_accuracy += accuracy;
 	}
-	//cout << "Mean Accuracy:\t" << mean_accuracy / (file_names.size()) << endl
-	//		<< endl;
-	//return (mean_accuracy / file_names.size());
-	//}
 }
 
 double test_perceptron(string test_file, double r, double* num_updates){
@@ -222,25 +214,31 @@ double test_perceptron(string test_file, double r, double* num_updates){
 	return accuracy;
 }
 
-void run_test_suite(){
+void run_test_suite(unsigned variant){
 	//run simple perceptron
 	double rates[3] = {1,.1,.01};
 	double num_rates = 3;
 	double num_updates = 0;
 
-	cout << "Running and Training with Simple Perceptron" << endl;
+	//cout << "Running and Training with Simple Perceptron" << endl;
 	vector<double> accuracies(3, 0);
 	//vector<vector<double> > weights_table
 	cout << "Running cross validation for ten epochs for each hyper-parameter." << endl;
 	for(unsigned i = 0; i < num_rates; i ++){
 		vector<double> weights = initialize_weights();
 		double curr_accuracy = 0;
-		for(unsigned j = 0; j < 10; j++)
-			/*curr_accuracy =*/ five_fold_cross_validation(rates[i], &num_updates,&weights);
+		for(unsigned j = 0; j < 10; j++){
+			double learning_rate = rates[i];
+			if(variant == DYNAMIC){
+				learning_rate = learning_rate/(1+j);
+			}
+			/*curr_accuracy =*/
+			five_fold_cross_validation(learning_rate, &num_updates,&weights);
+		}
 		double total = 0, pos = 0, neg = 0;
 		curr_accuracy = test_file_against_weights(&total,&pos,&neg,&weights,"./Dataset/phishing.dev");
 		accuracies.at(i) = (curr_accuracy);
-		cout <<"\tAccuracy for rate " << rates[i] <<": "<<accuracies[i]  << endl;
+		cout <<"\tAccuracy for rate " << rates[i] <<": "<< accuracies[i]  << endl;
 	}
 
 	double max_accuracy = 0;
@@ -266,13 +264,16 @@ void run_test_suite(){
 	vector<double> training_accuracies;
 	training_file_vec.push_back("./Dataset/phishing.train");
 	cout << "Training with Learning rate " << max_rate << " on File Dataset/phishing.train" << endl;
+	cout << "Testing with Learning rate " << max_rate << " on File Dataset/phishing.dev" << endl;
+
 	for(unsigned i = 0; i < 20; i++){
 		double curr_accuracy = 0, total = 0, pos = 0, neg = 0;
 		perceptron(&weights,training_file_vec,max_rate,&num_updates);
 		curr_accuracy = test_file_against_weights(&total, &pos, &neg, &weights, "./Dataset/phishing.dev");
 		training_accuracies.push_back(curr_accuracy);
 		weight_vectors.push_back(weights);
-		cout << "Epoch " << i <<" accuracy - " << curr_accuracy << endl;
+		cout << "Epoch " << i <<" accuracy - " << curr_accuracy;
+		cout << "\tupdates: " << num_updates << endl;
 	}
 	unsigned max_index = 0;
 	double highest_acc = find_max(training_accuracies,&max_index);
@@ -280,11 +281,26 @@ void run_test_suite(){
 	vector<double> best_classifier = weight_vectors.at(max_index);
 	double test_accuracy = 0, total = 0, pos = 0, neg = 0;
 	test_accuracy = test_file_against_weights(&total, &pos, &neg, &best_classifier, "./Dataset/phishing.test");
-	cout << "Accuracy for phishing.test " <<test_accuracy <<endl;
+	cout << "Accuracy for phishing.test " <<test_accuracy <<endl << endl;
+}
+
+void dynamic_learning(){
+	float learning_rate = 0;
+	cout << "Running and training with Dynamic Learning Rate" << endl;
+	double rates[3] = {1,.1,.01};
+	double num_rates = 3;
+	double num_updates = 0;
+	double t = 0; //time step
+	run_test_suite(DYNAMIC);
+	for(unsigned i = 0; i < 3; i++){
+		double learning_rate = rates[i];
+	}
 }
 
 int main(int argc, char** argv) {
-	run_test_suite();
+	cout << "Running and Training with Simple Perceptron" << endl;
+	run_test_suite(0);
+	dynamic_learning();
 	return 0;
 }
 
