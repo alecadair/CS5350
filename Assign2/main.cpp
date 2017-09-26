@@ -24,7 +24,7 @@ const string TRAINING_FILE = "./Dataset/phishing.train";
 
 bool get_example_from_data(string line, vector<double>* result, double* label) {
 	vector<double> feature_vector(NUM_FEATURES, 0);
-	feature_vector.at(NUM_FEATURES - 1) = 1;
+	//feature_vector.at(NUM_FEATURES - 1) = 1;
 	stringstream line_stream(line);
 	vector<string> line_tokens;
 	//push label for example
@@ -112,10 +112,12 @@ bool update_weights(vector<double>* weights, vector<double> feature,
 	if (y != label) {
 		for(unsigned i = 0; i < weights->size(); i++){
 			weights->at(i) = weights->at(i) + r*label*feature[i];
-			averaged_weights->at(i) = (averaged_weights->at(i) + weights->at(i))/2;
+			//averaged_weights->at(i) = (averaged_weights->at(i) + weights->at(i))/2;
 		}
+		*averaged_weights = vector_add(*averaged_weights, *weights);
 		return true;
 	}
+	*averaged_weights = vector_add(*averaged_weights, *weights);
 	return false;
 
 }
@@ -293,7 +295,7 @@ double run_test_suite(unsigned variant, double margin, vector<double>* averaged_
 			dyn_rate = 1/(1+i);
 		else
 			dyn_rate = max_rate;
-		perceptron(&weights,training_file_vec,dyn_rate,&num_updates, margin);
+		perceptron(&weights,training_file_vec,dyn_rate,&num_updates, margin, averaged_weights);
 		curr_accuracy = test_file_against_weights(&total, &pos, &neg, &weights, "./Dataset/phishing.dev");
 		training_accuracies.push_back(curr_accuracy);
 		weight_vectors.push_back(weights);
@@ -305,8 +307,10 @@ double run_test_suite(unsigned variant, double margin, vector<double>* averaged_
 	cout << "Highest accuracy at Epoch " << max_index << " with accuracy " << highest_acc << endl;
 	vector<double> best_classifier = weight_vectors.at(max_index);
 	double test_accuracy = 0, total = 0, pos = 0, neg = 0;
-	test_accuracy = test_file_against_weights(&total, &pos, &neg, &best_classifier, "./Dataset/phishing.test");
-	cout << "Accuracy for phishing.test " <<test_accuracy <<endl << endl;
+	if(variant != AVERAGED){
+		test_accuracy = test_file_against_weights(&total, &pos, &neg, &best_classifier, "./Dataset/phishing.test");
+		cout << "Accuracy for phishing.test " <<test_accuracy <<endl << endl;
+	}
 	return test_accuracy;
 }
 
@@ -317,7 +321,8 @@ void dynamic_learning(){
 	double num_rates = 3;
 	double num_updates = 0;
 	double t = 0; //time step
-	run_test_suite(DYNAMIC, 0);
+	vector<double> averaged_weights = initialize_weights();
+	run_test_suite(DYNAMIC, 0, &averaged_weights);
 }
 
 void margin_perceptron(){
@@ -325,8 +330,12 @@ void margin_perceptron(){
 	vector<double> margins, rates;
 	margins.push_back(1); margins.push_back(.1); margins.push_back(.01);
 	rates.push_back(1); rates.push_back(.1); rates.push_back(.01);
+	vector<double> averaged_weights = initialize_weights();
 	for(unsigned i = 0; i < margins.size(); i ++)
-		run_test_suite(MARGIN,margins[i]);
+		run_test_suite(MARGIN,margins[i], &averaged_weights);
+	double total = 0, pos = 0, neg = 0;
+	double test_accuracy = test_file_against_weights(&total, &pos, &neg, &averaged_weights, "./Dataset/phishing.test");
+	cout << "Accuracy for phishing.test " <<test_accuracy <<endl << endl;
 
 }
 
@@ -334,11 +343,12 @@ void averaged_perceptron(){
 	vector<double> weights = initialize_weights();
 	vector<double> averaged_weights(NUM_FEATURES, 0);
 	averaged_weights = weights;
-	run_test_suit(AVERAGED,0,averaged_weights);
+	run_test_suite(AVERAGED,0,&averaged_weights);
 }
 
 void simple_perceptron(){
-	run_test_suite(SIMPLE,0);
+	vector<double> averaged_weights = initialize_weights();
+	run_test_suite(SIMPLE,0, &averaged_weights);
 }
 int main(int argc, char** argv) {
 	cout << "Running and Training with Simple Perceptron" << endl;
