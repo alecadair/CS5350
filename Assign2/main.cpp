@@ -287,8 +287,10 @@ double run_test_suite(unsigned variant, double margin, vector<double>* averaged_
 	training_file_vec.push_back("./Dataset/phishing.train");
 	cout << "Training with Learning rate " << max_rate << " on File Dataset/phishing.train" << endl;
 	cout << "Testing with Learning rate " << max_rate << " on File Dataset/phishing.dev" << endl;
-
+	vector<double> updates_vector;
+	double total_updates = 0;
 	for(unsigned i = 0; i < 20; i++){
+		num_updates = 0;
 		double curr_accuracy = 0, total = 0, pos = 0, neg = 0;
 		double dyn_rate = 0;
 		if(variant == DYNAMIC)
@@ -296,6 +298,8 @@ double run_test_suite(unsigned variant, double margin, vector<double>* averaged_
 		else
 			dyn_rate = max_rate;
 		perceptron(&weights,training_file_vec,dyn_rate,&num_updates, margin, averaged_weights);
+		total_updates += num_updates;
+		updates_vector.push_back(num_updates);
 		curr_accuracy = test_file_against_weights(&total, &pos, &neg, &weights, "./Dataset/phishing.dev");
 		training_accuracies.push_back(curr_accuracy);
 		weight_vectors.push_back(weights);
@@ -305,6 +309,7 @@ double run_test_suite(unsigned variant, double margin, vector<double>* averaged_
 	unsigned max_index = 0;
 	double highest_acc = find_max(training_accuracies,&max_index);
 	cout << "Highest accuracy at Epoch " << max_index << " with accuracy " << highest_acc << endl;
+	cout << "Number of updates for entire training session: " << total_updates << endl;
 	vector<double> best_classifier = weight_vectors.at(max_index);
 	double test_accuracy = 0, total = 0, pos = 0, neg = 0;
 	if(variant != AVERAGED){
