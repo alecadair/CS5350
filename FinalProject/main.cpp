@@ -7,13 +7,15 @@
 
 #include <stdlib.h>
 #include <iostream>
+#include <stdio.h>
 #include <vector>
 #include <sstream>
 #include <fstream>
 #include <string>
+#include <time.h>
+#include "nearest_neighbors.h"
 
-
-#define NUM_FEATURES 17 //includes bias
+const unsigned int NUM_FEATURES = 17;
 
 using namespace std;
 
@@ -47,16 +49,16 @@ double dot_product(vector<double> v1, vector<double> v2){
 	}
 	return result;
 }
-bool update_weights(vector<double> weights, vector<double> example, double label, double learning_rate){
-	double dot_prod = dot_product(weights, example);
+bool update_weights(vector<double>* weights, vector<double> example, double label, double learning_rate){
+	double dot_prod = dot_product(*weights, example);
 	double y = 0;
 	if(dot_prod >= 0)
 		y = 1;
 	else
-		y = 1;
+		y = -1;
 	if(y != label){
-		for(unsigned int i = 0; i < weights.size(); i++){
-			weights.at(i) = weights.at(i) + learning_rate*label*example[i];
+		for(unsigned int i = 0; i < weights->size(); i++){
+			weights->at(i) = weights->at(i) + learning_rate*label*example[i];
 		}
 		return true;
 	}
@@ -79,7 +81,7 @@ void run_perceptron(){
 			get_example_from_data(line, &example, &label);
 			if(label == 0)
 				label = -1;
-			if(update_weights(weight_vector,example, label, rates[1])){
+			if(update_weights(&weight_vector,example, label, .01)){
 				updates++;
 			}
 			lin_num ++;
@@ -92,12 +94,14 @@ void run_perceptron(){
 }
 
 void initialize_weights(){
-	for(unsigned i = 0; i < 17; i++){
+	srand(time(NULL));
+	for(unsigned i = 0; i < NUM_FEATURES; i++){
 		double random = 0;
+		//srand(time(NULL));
 		int rand_num = rand();
 		rand_num = rand_num % 1000;
 		random = (double) rand_num;
-		random = random / 100000;
+		random = random /10000;
 		if(rand_num%2 == 0){
 			random *= -1;
 		}
@@ -123,7 +127,7 @@ void test_perceptron(){
 			if(label == 0)
 				label = -1;
 			double test_prod = dot_product(weight_vector, example);
-			if(test_prod >= 0)
+			if(test_prod > 0)
 				test_prod = 1;
 			else
 				test_prod = -1;
@@ -150,9 +154,11 @@ void test_perceptron(){
 }
 
 int main(){
-	initialize_weights();
-	run_perceptron();
-	test_perceptron();
+	//initialize_weights();
+	//run_perceptron();
+	//test_perceptron();
+	KNearestNeighbors knn;
+	knn.run_knn();
 	return 0;
 }
 
