@@ -15,7 +15,7 @@ int main(){
 //	for(auto vec : svm.training_vectors[0]){
 //		cout << vec.first << " " << vec.second << endl;
 //	}
-	svm.run_svm(.1,.1);
+	svm.run_svm(.01,.1);
 	svm.test_accuracy("./data/speeches.test.liblinear");
 	return 0;
 }
