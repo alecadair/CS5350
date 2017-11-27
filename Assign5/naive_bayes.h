@@ -35,7 +35,7 @@ public:
 	void fill_training_vecs(string filename, char is_test);
 	void run_test(string filename, int limit);
 	double get_example_from_data(string line,
-		map<unsigned int, double>* feat_vec, double* label, char is_test);
+	map<unsigned int, double>* feat_vec, double* label, char is_test);
 
 	//void calculate_probabilities(double smoothing_term);
 	double calculate_probability_feature(unsigned int feature, double label, double smoothing_term, int limit);

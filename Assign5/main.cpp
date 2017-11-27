@@ -20,8 +20,8 @@ int main(){
 	//svm.test_accuracy("./data/speeches.test.liblinear");
 
 	NaiveBayes bayes;
-	bayes.run_nbayes("./data/speeches.train.liblinear",1, 400);
-	bayes.run_test("./data/speeches.test.liblinear", 10000);
+	bayes.run_nbayes("./data/speeches.train.liblinear",1, 1000000);
+	bayes.run_test("./data/speeches.test.liblinear", 1000000);
 	return 0;
 }
 

@@ -38,7 +38,7 @@ double NaiveBayes::calculate_probability_feature(unsigned int feature, double la
 			break;
 	}
 	positives += (double)smoothing_term;
-	total += num_features;
+	//total += num_features;
 	return (positives/total);
 }
 
@@ -48,14 +48,14 @@ void NaiveBayes::run_nbayes(string training_file, double smoothing_term, int lim
 	cout << "Training on " << training_file << endl;
 	for(unsigned int i =  1; i < num_features; i++){
 		//if(i% 25 == 0)
-			cout << i+1 << " ";
+		//	cout << i+1 << " ";
 		//iterate through training set and on positives add
 		double poslabel_prob = calculate_probability_feature(i,1, smoothing_term, limit);
 		double neg_prob = 1 - poslabel_prob;
-		double neglabel_prob = calculate_probability_feature(i,-1,smoothing_term, limit);
+		//double neglabel_prob = calculate_probability_feature(i,-1,smoothing_term, limit);
 		Pair feature_pair;
 		feature_pair.positive_prob = poslabel_prob;
-		feature_pair.negative_prob = neglabel_prob;
+		feature_pair.negative_prob = neg_prob;
 		probability_map[i] = feature_pair;
 	}
 	cout << endl;
@@ -71,8 +71,8 @@ void NaiveBayes::run_test(string filename, int limit){
 	cout << "Testing " << filename << endl;
 	if(test_stream.is_open()){
 		while(getline(test_stream, test_line)){
-			if(linum % 100 == 0)
-				cout << linum << " ";
+			//if(linum % 100 == 0)
+			//	cout << linum << " ";
 			map<unsigned int, double> test_ex;
 			double test_label = 0;
 			get_example_from_data(test_line,&test_ex, &test_label,1);
