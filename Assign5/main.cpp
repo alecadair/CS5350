@@ -11,13 +11,17 @@
 #include "naive_bayes.h"
 
 int main(){
-	SVM svm;
-	svm.fill_training_vecs("./data/speeches.train.liblinear",0);
+	//SVM svm;
+	//svm.fill_training_vecs("./data/speeches.train.liblinear",0);
 //	for(auto vec : svm.training_vectors[0]){
 //		cout << vec.first << " " << vec.second << endl;
 //	}
-	svm.run_svm(.001,.1);
-	svm.test_accuracy("./data/speeches.test.liblinear");
+	//svm.run_svm(.001,.1);
+	//svm.test_accuracy("./data/speeches.test.liblinear");
+
+	NaiveBayes bayes;
+	bayes.run_nbayes("./data/speeches.train.liblinear",1, 400);
+	bayes.run_test("./data/speeches.test.liblinear", 10000);
 	return 0;
 }
 

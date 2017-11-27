@@ -20,7 +20,8 @@ NaiveBayes::NaiveBayes() {
 NaiveBayes::~NaiveBayes() {
 	// TODO Auto-generated destructor stub
 }
-double NaiveBayes::calculate_probability_feature(unsigned int feature, unsigned int label, double smoothing_term){
+double NaiveBayes::calculate_probability_feature(unsigned int feature, double label,
+												double smoothing_term, int limit){
 	//iterate through entire training set and find examples with label
 	double positives = 0, total = 0;
 	for(unsigned i = 0; i < training_vectors.size(); i++){
@@ -29,35 +30,89 @@ double NaiveBayes::calculate_probability_feature(unsigned int feature, unsigned 
 
 		map<unsigned int, double>::iterator map_iter = example.find(feature);
 		if(map_iter != example.end()){
-			positives ++;
+			if(training_labels[i] == label)
+				positives ++;
 		}
 		total ++;
+		if(i >= limit)
+			break;
 	}
 	positives += (double)smoothing_term;
 	total += num_features;
 	return (positives/total);
 }
 
-void NaiveBayes::run_nbayes(string training_file, double smoothing_term){
+void NaiveBayes::run_nbayes(string training_file, double smoothing_term, int limit){
 	fill_training_vecs(training_file,0);
 	//iterate through each feature
-	for(int i =  1; i < num_features; i++){
+	cout << "Training on " << training_file << endl;
+	for(unsigned int i =  1; i < num_features; i++){
+		//if(i% 25 == 0)
+			cout << i+1 << " ";
 		//iterate through training set and on positives add
-		double pos_prob = calculate_probability_feature(i,1, smoothing_term);
-		double neg_prob = 1 - pos_prob;
+		double poslabel_prob = calculate_probability_feature(i,1, smoothing_term, limit);
+		double neg_prob = 1 - poslabel_prob;
+		double neglabel_prob = calculate_probability_feature(i,-1,smoothing_term, limit);
 		Pair feature_pair;
-		feature_pair.positive_prob = pos_prob;
-		feature_pair.negative_prob = neg_prob;
-
+		feature_pair.positive_prob = poslabel_prob;
+		feature_pair.negative_prob = neglabel_prob;
+		probability_map[i] = feature_pair;
 	}
-	//iterate through entire training set
-	//for each example iterate through all features update probability map
+	cout << endl;
 	return;
 }
-void NaiveBayes::run_training(string filename){
 
+void NaiveBayes::run_test(string filename, int limit){
+	ifstream test_stream(filename);
+	string test_line;
+	int linum = 0;
+	double pos_pred = 0;
+	double right = 0, wrong = 0, tests = 0;
+	cout << "Testing " << filename << endl;
+	if(test_stream.is_open()){
+		while(getline(test_stream, test_line)){
+			if(linum % 100 == 0)
+				cout << linum << " ";
+			map<unsigned int, double> test_ex;
+			double test_label = 0;
+			get_example_from_data(test_line,&test_ex, &test_label,1);
+			double pos_prob = label_positive_prob;
+			double neg_prob = 1 - label_positive_prob;
+			//iterate through all features and do products
+			for(unsigned int i = 1; i < num_features; i ++){
+				map<unsigned int, Pair>::iterator map_iter;
+				map_iter = probability_map.find(i);
+				if(map_iter != probability_map.end()){
+					Pair probs = map_iter->second;
+					pos_prob *= probs.positive_prob;
+					neg_prob *= probs.negative_prob;
+				}
 
+			}
+			double prediction = 0;
+			if(pos_prob >= neg_prob)
+				prediction = 1;
+			else
+				prediction = -1;
+			if(prediction == 1)
+				pos_pred ++;
+			if(test_label == prediction)
+				right ++;
+			else
+				wrong++;
+			linum++;
+			if(linum >= limit)
+				break;
+			tests++;
+		}
+	}
+	test_stream.close();
+	cout << endl<< "Accuracy:\t" << ((right)/(right+wrong)) << endl;
+	cout << "Right:\t" << right << endl;
+	cout << "Positive Predictions: " << pos_pred ++ << endl;
+	cout << "Number of tests: " << tests << endl;
 }
+
 double NaiveBayes::get_example_from_data(string line,
 	map<unsigned int, double>* feat_vec, double* label, char is_test) {
 	stringstream lin_stream(line);
@@ -75,13 +130,15 @@ double NaiveBayes::get_example_from_data(string line,
 		getline(feature_stream, feat_str, ':');
 		double feat_val = (double) stof(feat_str);
 		(*feat_vec)[file_index] = feat_val;
-		if(file_index > num_features){
+		if(file_index > num_features && !is_test){
 			num_features = file_index;
 		}
-		Pair new_pair;
-		new_pair.negative_prob = 0;
-		new_pair.positive_prob = 0;
-		probability_map[file_index] = new_pair;
+		if(!is_test){
+			Pair new_pair;
+			new_pair.negative_prob = 0;
+			new_pair.positive_prob = 0;
+			probability_map[file_index] = new_pair;
+		}
 		//if(!is_test)
 		//	weights[file_index] = 0;
 	}
@@ -100,8 +157,9 @@ void NaiveBayes::fill_training_vecs(string filename, char is_test){
 			get_example_from_data(train_line, &feat_vec, &label, is_test);
 			if(label == -1){
 				negs++;
-			}else{pos++;}
-
+			}else{
+				pos++;
+			}
 			if (!is_test) {
 				training_vectors.push_back(feat_vec);
 				training_labels.push_back(label);
