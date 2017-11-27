@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include "svm.h"
+#include "naive_bayes.h"
 
 int main(){
 	SVM svm;
@@ -15,7 +16,7 @@ int main(){
 //	for(auto vec : svm.training_vectors[0]){
 //		cout << vec.first << " " << vec.second << endl;
 //	}
-	svm.run_svm(.01,.1);
+	svm.run_svm(.001,.1);
 	svm.test_accuracy("./data/speeches.test.liblinear");
 	return 0;
 }
