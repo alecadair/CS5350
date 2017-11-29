@@ -6,6 +6,7 @@
  */
 
 #include "naive_bayes.h"
+#include <math.h>
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -28,17 +29,23 @@ double NaiveBayes::calculate_probability_feature(unsigned int feature, double la
 		//check to see if example contains feature
 		map<unsigned int, double> example = training_vectors[i];
 
-		map<unsigned int, double>::iterator map_iter = example.find(feature);
-		if(map_iter != example.end()){
-			if(training_labels[i] == label)
-				positives ++;
+		if(training_labels[i] == label){
+			map<unsigned int, double>::iterator map_iter = example.find(feature);
+			if(map_iter != example.end()){
+				positives++;
+			}
+			total++;
 		}
-		total ++;
+//		if(map_iter != example.end()){
+//			//if(training_labels[i] == label)
+//			//	positives ++;
+//		}
+//		total ++;
 		if(i >= limit)
 			break;
 	}
 	positives += (double)smoothing_term;
-	//total += num_features;
+	total += (2*smoothing_term);
 	return (positives/total);
 }
 
@@ -51,12 +58,14 @@ void NaiveBayes::run_nbayes(string training_file, double smoothing_term, int lim
 		//	cout << i+1 << " ";
 		//iterate through training set and on positives add
 		double poslabel_prob = calculate_probability_feature(i,1, smoothing_term, limit);
-		double neg_prob = 1 - poslabel_prob;
-		//double neglabel_prob = calculate_probability_feature(i,-1,smoothing_term, limit);
+		//double neg_prob =// 1 - poslabel_prob;
+		double neglabel_prob = calculate_probability_feature(i,-1,smoothing_term, limit);
 		Pair feature_pair;
 		feature_pair.positive_prob = poslabel_prob;
-		feature_pair.negative_prob = neg_prob;
+		feature_pair.negative_prob = neglabel_prob;
 		probability_map[i] = feature_pair;
+		if(i >= limit)
+			break;
 	}
 	cout << endl;
 	return;
@@ -76,21 +85,44 @@ void NaiveBayes::run_test(string filename, int limit){
 			map<unsigned int, double> test_ex;
 			double test_label = 0;
 			get_example_from_data(test_line,&test_ex, &test_label,1);
-			double pos_prob = label_positive_prob;
-			double neg_prob = 1 - label_positive_prob;
+			double pos_prob = 0;//label_positive_prob;
+			double neg_prob = 0;// - label_positive_prob;
 			//iterate through all features and do products
-			for(unsigned int i = 1; i < num_features; i ++){
-				map<unsigned int, Pair>::iterator map_iter;
-				map_iter = probability_map.find(i);
-				if(map_iter != probability_map.end()){
-					Pair probs = map_iter->second;
-					pos_prob *= probs.positive_prob;
-					neg_prob *= probs.negative_prob;
+			map<unsigned int, double>::iterator ex_iter = test_ex.begin();
+			unsigned int j = 0;
+			for(; ex_iter != test_ex.end(); ex_iter ++){
+				//map<unsigned int, Pair>::iterator map_iter;
+				//map_iter = probability_map.find(i);
+				unsigned int i = ex_iter->first;
+				double pos = probability_map[i].positive_prob;
+				double neg = probability_map[i].negative_prob;
+				if(neg != 0 && pos != 0){
+					double logneg = log(neg);
+					double logpos = log(pos);
+					//pos_prob *= pos;
+					//neg_prob *= neg;
+					pos_prob += logpos;
+					neg_prob += logneg;
 				}
+				if(j >= limit)
+					break;
+				//if(map_iter != probability_map.end()){
+
+				//	Pair probs = map_iter->second;
+				//	double pos = probs.positive_prob;
+				//	double neg = probs.negative_prob;
+				//	if(neg != 0 && pos != 0 && neg < 1 && pos < 1){
+				//		pos_prob *= pos;
+				///		neg_prob *= neg;
+				///	}
+				//}
+				j++;
 
 			}
+			pos_prob += log(label_positive_prob);
+			neg_prob += log(1 - label_positive_prob);
 			double prediction = 0;
-			if(pos_prob >= neg_prob)
+			if(pos_prob > neg_prob)
 				prediction = 1;
 			else
 				prediction = -1;
@@ -101,15 +133,15 @@ void NaiveBayes::run_test(string filename, int limit){
 			else
 				wrong++;
 			linum++;
-			if(linum >= limit)
-				break;
 			tests++;
+			//if(linum >= limit)
+			//	break;
 		}
 	}
 	test_stream.close();
 	cout << endl<< "Accuracy:\t" << ((right)/(right+wrong)) << endl;
 	cout << "Right:\t" << right << endl;
-	cout << "Positive Predictions: " << pos_pred ++ << endl;
+	cout << "Positive Predictions: " << pos_pred << endl;
 	cout << "Number of tests: " << tests << endl;
 }
 
@@ -137,6 +169,7 @@ double NaiveBayes::get_example_from_data(string line,
 			Pair new_pair;
 			new_pair.negative_prob = 0;
 			new_pair.positive_prob = 0;
+			map<unsigned int, Pair>::iterator prob_it;
 			probability_map[file_index] = new_pair;
 		}
 		//if(!is_test)

@@ -9,6 +9,7 @@
 #include <iostream>
 #include "svm.h"
 #include "naive_bayes.h"
+#include "logistic_regression.h"
 
 int main(){
 	//SVM svm;
@@ -19,9 +20,12 @@ int main(){
 	//svm.run_svm(.001,.1);
 	//svm.test_accuracy("./data/speeches.test.liblinear");
 
-	NaiveBayes bayes;
-	bayes.run_nbayes("./data/speeches.train.liblinear",1, 1000000);
-	bayes.run_test("./data/speeches.test.liblinear", 1000000);
+	//NaiveBayes bayes;
+	//bayes.run_nbayes("./data/speeches.train.liblinear",10, 30000);
+	//bayes.run_test("./data/speeches.test.liblinear", 30000);
+	LogisticRegression reg;
+	reg.train_classifier("./data/speeches.train.liblinear");
+	reg.test("./data/speeches.test.liblinear");
 	return 0;
 }
 

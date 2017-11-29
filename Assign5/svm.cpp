@@ -66,8 +66,11 @@ double SVM::dot_product(map<unsigned int, double> v1,
 	while (map_iter != v1.end()) {
 		unsigned int index = map_iter->first;
 		double attr = map_iter->second;
-		double weight = w[index];
-		result += (attr * weight);
+		auto iter = w.find(index);
+		if(iter != w.end()){
+			double weight = w[index];
+			result += (attr * weight);
+		}
 		map_iter++;
 	}
 	return result;
