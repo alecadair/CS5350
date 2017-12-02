@@ -25,7 +25,7 @@ ID3::~ID3() {
 double ID3::calculate_info_gain(
 		vector<map<unsigned int, double> >* attribute_table,
 		vector<double>* labels, unsigned int attribute) {
-	double gain = calculate_entropy(attribute_table,labels,1,attribute,0);
+	double gain = calculate_entropy(attribute_table,labels,attribute);
 //
 	return gain;
 //	double total_entropy = calculate_entropy(attribute_table, labels, 1,
@@ -63,8 +63,7 @@ double ID3::calculate_info_gain(
 
 double ID3::calculate_entropy(
 		vector<map<unsigned int, double> >* attribute_table,
-		vector<double> *labels, char all_labels, unsigned int attribute,
-		double attribute_val) {
+		vector<double> *labels, unsigned int attribute) {
 	double yesposcount, negposcount = 0;
 	double yesnegcount, negnegcount = 0;
 	double total_entropy = 0;
@@ -112,11 +111,11 @@ double ID3::calculate_entropy(
 	if(negposcount != 0&& negnegcount != 0){
 		noentropy = (-1*(negposcount/negtotal)*log2(negposcount/negtotal)) - (negnegcount/negtotal)*log2(negnegcount/negtotal);
 	}
-	double poscoef = yestotal/labels->size();
-	double negcoef = negtotal/labels->size();
-	double gain = (positives/((double)labels->size()))*log2(positives/((double)labels->size())) + (negatives/((double)labels->size()))*log2(negatives/((double)labels->size()));
+	double poscoef = yestotal/(double)labels->size();
+	double negcoef = negtotal/(double)labels->size();
+	double gain = (-positives/(positives+negatives))*log2(positives/(positives+negatives)) + (-negatives/(positives+negatives))*log2(negatives/(positives+negatives));
 
-	return gain -((poscoef*yesentropy)+(negcoef*noentropy));
+	return gain - ((poscoef*yesentropy)+(negcoef*noentropy));
 
 }
 
@@ -166,9 +165,13 @@ Node ID3::id3_algorithm(vector<map<unsigned int, double> >* examples,
 	unsigned int max_attribute = 0;
 	double max_info_gain = 0;
 	set<unsigned int>::iterator attr_iter = attributes->begin();
+	attr_iter ++;
 	unsigned int counter = 0;
 	for (; attr_iter != attributes->end(); attr_iter++) {
+		//if(attr_iter == 0)
+		//	attr_iter ++;
 		double info_gain = calculate_info_gain(examples, labels, *attr_iter);
+		cout << info_gain << endl;
 		//cout << info_gain << endl;
 		if (info_gain >= max_info_gain) {
 			max_info_gain = info_gain;
@@ -176,7 +179,7 @@ Node ID3::id3_algorithm(vector<map<unsigned int, double> >* examples,
 		}
 		//cout << "Max attr: " << max_attribute << endl;
 		counter++;
-		if (counter >= 300)
+		if (counter >= 1000)
 			break;
 	}
 	cout << "Max attribute " << max_attribute << endl;

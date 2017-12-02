@@ -33,7 +33,7 @@ public:
 	VectorFuncs funcs;
 	double calculate_info_gain(vector<map<unsigned int, double> >* attribute_table,
 	                vector<double>* labels, unsigned int attribute);
-	double calculate_entropy(vector<map<unsigned int, double> >* attribute_table, vector<double>* labels, char all_labels, unsigned int attribute, double attribute_val);
+	double calculate_entropy(vector<map<unsigned int, double> >* attribute_table, vector<double>* labels, unsigned int attribute);
 	Node induce_tree(unsigned int max_depth, string training_file);
 	Node id3_algorithm(vector<map<unsigned int, double> >* examples, vector<double>* labels, set<unsigned int>* attributes, unsigned int current_depth);
 	double majority_label(vector<double>* labels);
