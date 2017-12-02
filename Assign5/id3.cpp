@@ -140,11 +140,12 @@ Node ID3::id3_algorithm(vector<map<unsigned int, double> >* examples,
 		vector<double>* labels, set<unsigned int>* attributes,
 		unsigned int current_depth) {
 	Node new_node;
+	new_node.is_leaf = 0;
 	//check if all labels are the same
 	char same_labels = 1;
 	if (labels->size() < 3) {
 		double maj_lab = majority_label(labels);
-		new_node.is_leaf = true;
+		new_node.is_leaf = 1;
 		new_node.label = maj_lab;
 		return new_node;
 	}
@@ -153,7 +154,7 @@ Node ID3::id3_algorithm(vector<map<unsigned int, double> >* examples,
 			same_labels = 0;
 	}
 	if (same_labels) {
-		new_node.is_leaf = true;
+		new_node.is_leaf = 1;
 		new_node.label = labels->at(0);
 		return new_node;
 	}
@@ -175,7 +176,9 @@ Node ID3::id3_algorithm(vector<map<unsigned int, double> >* examples,
 	}
 	cout << "Max attribute " << max_attribute << endl;
 	new_node.attribute = max_attribute;
-	attributes->erase(max_attribute);
+	//attributes->erase(max_attribute);
+	set<unsigned int> new_attributes = *attributes;
+	new_attributes.erase(max_attribute);
 	for (unsigned i = 0; i < 2; i++) {
 		Node child;
 		vector<map<unsigned int, double> > sv;
@@ -219,7 +222,7 @@ double ID3::majority_label(vector<double>* labels) {
 		else
 			neg++;
 	}
-	if (pos >= neg)
+	if (pos > neg)
 		return 1;
 	else
 		return -1;
@@ -230,10 +233,11 @@ void ID3::test(string test_file, Node tree){
 	string test_line;
 	double right = 0, wrong = 0, pos = 0, neg = 0;
 	while(getline(test_stream,test_line)){
-		map<unsigned int, double> test_ex; double test_lab = 0;
+		map<unsigned int, double> test_ex;
+		double test_lab = 0;
 		funcs.get_example_from_data(test_line,&test_ex,&test_lab,1);
 		Node temp = tree;
-		while(temp.is_leaf == false){
+		while(temp.is_leaf == 0){
 			unsigned int attr = temp.attribute;
 			if(test_ex.find(attr) == test_ex.end()){
 				temp = temp.children[0];
@@ -241,6 +245,7 @@ void ID3::test(string test_file, Node tree){
 				temp = temp.children[1];
 			}
 		}
+		cout << temp.label << endl;
 		double label = temp.label;
 		if(label == test_lab)
 			right ++;
