@@ -171,7 +171,7 @@ Node ID3::id3_algorithm(vector<map<unsigned int, double> >* examples,
 		//if(attr_iter == 0)
 		//	attr_iter ++;
 		double info_gain = calculate_info_gain(examples, labels, *attr_iter);
-		cout << info_gain << endl;
+		//cout << info_gain << endl;
 		//cout << info_gain << endl;
 		if (info_gain >= max_info_gain) {
 			max_info_gain = info_gain;
@@ -182,7 +182,7 @@ Node ID3::id3_algorithm(vector<map<unsigned int, double> >* examples,
 		if (counter >= 1000)
 			break;
 	}
-	cout << "Max attribute " << max_attribute << endl;
+	//cout << "Max attribute " << max_attribute << endl;
 	new_node.attribute = max_attribute;
 	//attributes->erase(max_attribute);
 	set<unsigned int> new_attributes = *attributes;
@@ -253,7 +253,7 @@ void ID3::test(string test_file, Node tree){
 				temp = temp.children[1];
 			}
 		}
-		cout << temp.label << endl;
+		//cout << temp.label << endl;
 		double label = temp.label;
 		if(label == test_lab)
 			right ++;
@@ -264,9 +264,9 @@ void ID3::test(string test_file, Node tree){
 		else
 			neg++;
 	}
-	cout << "Accuracy - " << ((right)/(right+wrong)) << endl;
-	cout << "Right - " << right << endl;
-	cout << "Wrong - " << wrong << endl;
-	cout << "Pos - " << pos << endl;
-	cout << "Neg - " << neg << endl;
+	//cout << "Accuracy - " << ((right)/(right+wrong)) << endl;
+	//cout << "Right - " << right << endl;
+	//cout << "Wrong - " << wrong << endl;
+	//cout << "Pos - " << pos << endl;
+	//cout << "Neg - " << neg << endl;
 }

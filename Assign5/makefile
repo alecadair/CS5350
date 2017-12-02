@@ -1,7 +1,7 @@
 
 CC=g++
-OBJ = svm.o main.o naive_bayes.o logistic_regression.o vector_funcs.o id3.o
-DEPS = svm.h naive_bayes.h logistic_regression.h vector_funcs.h id3.h
+OBJ = svm.o main.o naive_bayes.o logistic_regression.o vector_funcs.o id3.o bagged_forest.o
+DEPS = svm.h naive_bayes.h logistic_regression.h vector_funcs.h id3.h bagged_forest.h
 FLAGS = -g -std=c++11
 all:assign5
 
@@ -19,6 +19,8 @@ vector_funcs.o:vector_funcs.cpp
 	$(CC) $(FLAGS) -c vector_funcs.cpp
 id3.o:id3.cpp
 	$(CC) $(FLAGS) -c id3.cpp
+bagged_forest.o:bagged_forest.cpp
+	$(CC) $(FLAGS) -c bagged_forest.cpp
 clean:
 	rm -f svm $(OBJ)
 	

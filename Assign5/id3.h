@@ -14,6 +14,7 @@
 //#include <bool.h>
 #include "vector_funcs.h"
 using namespace std;
+
 typedef struct Node{
 	vector<Node> children;
 	unsigned int attribute;

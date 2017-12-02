@@ -11,6 +11,7 @@
 #include "naive_bayes.h"
 #include "id3.h"
 #include "logistic_regression.h"
+#include "bagged_forest.h"
 
 int main(){
 	//SVM svm;
@@ -33,9 +34,13 @@ int main(){
 	//reg.train_classifier("../Assign2/Dataset/phishing.train");
 	//reg.test("../Assign2/Dataset/phishing.test");
 
-	ID3 id3;
-	Node root = id3.induce_tree(0,"./data/CVSplits/training00.data");
-	id3.test("./data/CVSplits/training01.data", root);
+	//ID3 id3;
+	//Node root = id3.induce_tree(0,"./data/CVSplits/training00.data");
+	//id3.test("./data/CVSplits/training01.data", root);
+
+	BaggedForest forest;
+	forest.run_bagged_forest("./data/CVSplits/training00.data");
+	forest.test("./data/CVSplits/training01.data");
 	return 0;
 }
 
