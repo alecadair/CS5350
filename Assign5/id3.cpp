@@ -131,9 +131,9 @@ void ID3::populate_training_data(string filename) {
 	}
 }
 
-void ID3::induce_tree(unsigned int max_depth, string training_file) {
+Node ID3::induce_tree(unsigned int max_depth, string training_file) {
 	populate_training_data(training_file);
-	id3_algorithm(&training_data, &initial_labels, &initial_attributes, 1);
+	return id3_algorithm(&training_data, &initial_labels, &initial_attributes, 1);
 }
 
 Node ID3::id3_algorithm(vector<map<unsigned int, double> >* examples,
@@ -195,7 +195,7 @@ Node ID3::id3_algorithm(vector<map<unsigned int, double> >* examples,
 				}
 			}
 		}
-		cout << "sv size: " << sv.size() << endl;
+		//cout << "sv size: " << sv.size() << endl;
 		//if sv is empty create l or past current depth
 		if (sv.size() == 0 || current_depth >= 3) {
 			child.is_leaf = true;
@@ -225,3 +225,35 @@ double ID3::majority_label(vector<double>* labels) {
 		return -1;
 }
 
+void ID3::test(string test_file, Node tree){
+	ifstream test_stream(test_file);
+	string test_line;
+	double right = 0, wrong = 0, pos = 0, neg = 0;
+	while(getline(test_stream,test_line)){
+		map<unsigned int, double> test_ex; double test_lab = 0;
+		funcs.get_example_from_data(test_line,&test_ex,&test_lab,1);
+		Node temp = tree;
+		while(temp.is_leaf == false){
+			unsigned int attr = temp.attribute;
+			if(test_ex.find(attr) == test_ex.end()){
+				temp = temp.children[0];
+			}else{
+				temp = temp.children[1];
+			}
+		}
+		double label = temp.label;
+		if(label == test_lab)
+			right ++;
+		else
+			wrong++;
+		if(label == 1)
+			pos ++;
+		else
+			neg++;
+	}
+	cout << "Accuracy - " << ((right)/(right+wrong)) << endl;
+	cout << "Right - " << right << endl;
+	cout << "Wrong - " << wrong << endl;
+	cout << "Pos - " << pos << endl;
+	cout << "Neg - " << neg << endl;
+}

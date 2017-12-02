@@ -34,8 +34,9 @@ public:
 	double calculate_info_gain(vector<map<unsigned int, double> >* attribute_table,
 	                vector<double>* labels, unsigned int attribute);
 	double calculate_entropy(vector<map<unsigned int, double> >* attribute_table, vector<double>* labels, char all_labels, unsigned int attribute, double attribute_val);
-	void induce_tree(unsigned int max_depth, string training_file);
+	Node induce_tree(unsigned int max_depth, string training_file);
 	Node id3_algorithm(vector<map<unsigned int, double> >* examples, vector<double>* labels, set<unsigned int>* attributes, unsigned int current_depth);
 	double majority_label(vector<double>* labels);
+	void test(string test_file, Node tree);
 };
 #endif /* ID3_H_ */

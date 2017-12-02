@@ -13,8 +13,9 @@
 #include <iostream>
 #include <string>
 #include <map>
-#include "svm.h"
-#include "naive_bayes.h"
+//#include "svm.h"
+//#include "naive_bayes.h"
+#include "vector_funcs.h"
 
 using namespace std;
 class LogisticRegression {
@@ -29,7 +30,7 @@ public:
 	virtual ~LogisticRegression();
 	void test(string filename);
 	void train_classifier(string filename);
-	NaiveBayes funcs;
+	VectorFuncs funcs;
 	map<unsigned int, double> add_vectors(map<unsigned int, double> v1,
 							map<unsigned int, double> v2);	
 };
