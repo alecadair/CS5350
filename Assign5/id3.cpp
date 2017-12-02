@@ -25,94 +25,99 @@ ID3::~ID3() {
 double ID3::calculate_info_gain(
 		vector<map<unsigned int, double> >* attribute_table,
 		vector<double>* labels, unsigned int attribute) {
-
-	double total_entropy = calculate_entropy(attribute_table, labels, 1,
-			attribute, 0);
-	vector<map<unsigned int, double> > attribute_table_truesv;
-	vector<map<unsigned int, double> > attribute_table_falsesv;
-	vector<double> labels_truesv;
-	vector<double> labels_falsesv;
-	for (unsigned int i = 0; i < attribute_table->size(); i++) {
-		map<unsigned int, double> example = attribute_table->at(i);
-		map<unsigned int, double>::iterator ex_iter = example.find(attribute);
-		if (ex_iter != example.end()) {
-			attribute_table_truesv.push_back(example);
-			labels_truesv.push_back(labels->at(i));
-		} else {
-			attribute_table_falsesv.push_back(example);
-			labels_falsesv.push_back(labels->at(i));
-		}
-	}
-	double entropy_true = calculate_entropy(&attribute_table_truesv,
-			&labels_truesv, false, attribute, 1);
-	double entropy_false = calculate_entropy(&attribute_table_falsesv,
-			&labels_falsesv, false, attribute, 0);
-	entropy_true *= (((float) labels_truesv.size()) / ((float) labels->size()));
-	entropy_false *=
-			(((float) labels_falsesv.size()) / ((float) labels->size()));
-	//cout << "Attribute " << attribute << endl;
-	//cout << "entropy false " << entropy_false << endl;
-	//cout << "entropy true " <<  entropy_true << endl;
-	//cout << "total entropy " << total_entropy << endl;
-	double gain = total_entropy - (entropy_true + entropy_false);
-	//cout << "gain " << gain << endl;
+	double gain = calculate_entropy(attribute_table,labels,1,attribute,0);
+//
 	return gain;
+//	double total_entropy = calculate_entropy(attribute_table, labels, 1,
+//			attribute, 0);
+//	vector<map<unsigned int, double> > attribute_table_truesv;
+//	vector<map<unsigned int, double> > attribute_table_falsesv;
+//	vector<double> labels_truesv;
+//	vector<double> labels_falsesv;
+//	for (unsigned int i = 0; i < attribute_table->size(); i++) {
+//		map<unsigned int, double> example = attribute_table->at(i);
+//		map<unsigned int, double>::iterator ex_iter = example.find(attribute);
+//		if (ex_iter != example.end()) {
+//			attribute_table_truesv.push_back(example);
+//			labels_truesv.push_back(labels->at(i));
+//		} else {
+//			attribute_table_falsesv.push_back(example);
+//			labels_falsesv.push_back(labels->at(i));
+//		}
+//	}
+//	double entropy_true = calculate_entropy(&attribute_table_truesv,
+//			&labels_truesv, false, attribute, 1);
+//	double entropy_false = calculate_entropy(&attribute_table_falsesv,
+//			&labels_falsesv, false, attribute, 0);
+//	entropy_true *= (((float) labels_truesv.size()) / ((float) labels->size()));
+//	entropy_false *=
+//			(((float) labels_falsesv.size()) / ((float) labels->size()));
+//	//cout << "Attribute " << attribute << endl;
+//	//cout << "entropy false " << entropy_false << endl;
+//	//cout << "entropy true " <<  entropy_true << endl;
+//	//cout << "total entropy " << total_entropy << endl;
+//	double gain = total_entropy - (entropy_true + entropy_false);
+	//cout << "gain " << gain << endl;
+	//return gain;
 }
 
 double ID3::calculate_entropy(
 		vector<map<unsigned int, double> >* attribute_table,
 		vector<double> *labels, char all_labels, unsigned int attribute,
 		double attribute_val) {
-	double positives, negatives = 0;
+	double yesposcount, negposcount = 0;
+	double yesnegcount, negnegcount = 0;
+	double total_entropy = 0;
 	double pos_proportion, neg_proportion = 0;
+	double negatives = 0, positives = 0;
 	double entropy = 0;
 	//if (all_labels) {
-	for (unsigned i = 0; i < labels->size(); i++) {
-		if (labels->at(i) == -1)
-			negatives++;
-		else
+//	for (unsigned i = 0; i < labels->size(); i++) {
+//		if (labels->at(i) == -1)
+//			negatives++;
+//		else
+//			positives++;
+//	}
+
+//	pos_proportion = positives / (negatives + positives);
+//	neg_proportion = negatives / (negatives + positives);
+	//entropy = -1 * pos_proportion * log2(pos_proportion);
+	//entropy -= neg_proportion * log2(neg_proportion);
+//
+	for(unsigned int i = 0; i < attribute_table->size(); i++){
+		map<unsigned int, double>::iterator ex_iter = attribute_table->at(i).find(attribute);
+		if(labels->at(i) == 1)
 			positives++;
+		else
+			negatives++;
+		if(ex_iter != attribute_table->at(i).end()){
+			if(labels->at(i) == 1)
+				yesposcount ++;
+			else
+				yesnegcount ++;
+		}else{
+			if(labels->at(i) == 1)
+				negposcount ++;
+			else
+				negnegcount++;
+		}
 	}
-	if (positives == 0 || negatives == 0)
-		return 0;
-	pos_proportion = positives / (negatives + positives);
-	neg_proportion = negatives / (negatives + positives);
-	entropy = -1 * pos_proportion * log2(pos_proportion);
-	entropy -= neg_proportion * log2(neg_proportion);
-	return entropy;
-	//}
-	/*double examples_with_val = 0;
-	 //find total examples with attribute equal to attribute_val
-	 //and proportions of labels
-	 for (unsigned i = 0; i < attribute_table->size(); i++) {
-	 map<unsigned int, double>::iterator example_iter;
-	 map<unsigned int, double> example = attribute_table->at(i);
-	 example_iter = example.find(attribute);
-	 if (attribute_val == 0) {
-	 //if (example_iter == example.end()) {
-	 //	examples_with_val++;
-	 if (labels->at(i) == 1)
-	 positives++;
-	 else
-	 negatives++;
-	 //}
-	 } else {
-	 //if (example_iter != example.end()) {
-	 //	examples_with_val++;
-	 if (labels->at(i) == 1)
-	 positives++;
-	 else
-	 negatives++;
-	 //}
-	 }
-	 }
-	 if (positives == 0 || negatives == 0)
-	 return 0;
-	 pos_proportion = positives / attribute_table->size();
-	 neg_proportion = negatives / attribute_table->size();
-	 entropy = -1 * pos_proportion * log2(pos_proportion);
-	 entropy -= neg_proportion * log2(neg_proportion);
-	 return entropy;*/
+	double yestotal = yesposcount + yesnegcount;
+	double yesentropy = 0;
+	if(yesposcount != 0 && yesnegcount != 0){
+		yesentropy = (-1*(yesposcount/yestotal)*log2(yesposcount/yestotal)) - (yesnegcount/yestotal)*log2(yesnegcount/yestotal);
+	}
+	double noentropy = 0;
+	double negtotal = negposcount + negnegcount;
+	if(negposcount != 0&& negnegcount != 0){
+		noentropy = (-1*(negposcount/negtotal)*log2(negposcount/negtotal)) - (negnegcount/negtotal)*log2(negnegcount/negtotal);
+	}
+	double poscoef = yestotal/labels->size();
+	double negcoef = negtotal/labels->size();
+	double gain = (positives/((double)labels->size()))*log2(positives/((double)labels->size())) + (negatives/((double)labels->size()))*log2(negatives/((double)labels->size()));
+
+	return gain -((poscoef*yesentropy)+(negcoef*noentropy));
+
 }
 
 void ID3::populate_training_data(string filename) {
