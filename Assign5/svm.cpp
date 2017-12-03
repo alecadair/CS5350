@@ -45,11 +45,7 @@ void SVM::run_svm(double learning_rate, double trade_off) {
 				if (search != example.end()) {
 					weights_iter->second += search->second;
 					//cout << "weights adjust" << endl;
-
-				} else {
-				//	cout << "error weights not adjusted right" << endl;
 				}
-				//cout << "weights\t" << weights.size() << endl;
 				weights_iter++;
 			}
 		} else {
@@ -59,6 +55,12 @@ void SVM::run_svm(double learning_rate, double trade_off) {
 	return;
 }
 
+void SVM:: empty_vectors(){
+	for(int i = training_vectors.size() -1; i >= 0; i--){
+		training_vectors.erase(training_vectors.begin() + i);
+		training_labels.erase(training_labels.begin() + i);
+	}
+}
 double SVM::dot_product(map<unsigned int, double> v1,
 		map<unsigned int, double> w) {
 	map<unsigned int, double>::iterator map_iter = v1.begin();
@@ -82,6 +84,7 @@ void SVM::scale_vector(double s, map<unsigned int, double>* v) {
 		map_iter++;
 	}
 }
+
 double SVM::get_example_from_data(string line,
 		map<unsigned int, double>* feat_vec, double* label, char is_test) {
 	stringstream lin_stream(line);
@@ -104,7 +107,7 @@ double SVM::get_example_from_data(string line,
 	}
 }
 
-void SVM::fill_training_vecs(string filename, char is_test) {
+double SVM::fill_training_vecs(string filename, char is_test) {
 	ifstream train_stream(filename);
 	string train_line;
 	unsigned int lin_count = 1;
@@ -136,12 +139,17 @@ void SVM::fill_training_vecs(string filename, char is_test) {
 	}
 	train_stream.close();
 	if (is_test) {
-		cout << "Accuracy\t" << ((right) / (right + wrong)) << endl;
-		cout << "Right:\t" << right << endl;
-		cout << "Wrong:\t" << wrong << endl;
-		cout << "Pos:\t" << pos << endl;
-		cout << "Neg:\t" << negs << endl;
+		//cout << "Accuracy\t" << ((right) / (right + wrong)) << endl;
+		//cout << "Right:\t" << right << endl;
+		//cout << "Wrong:\t" << wrong << endl;
+		//cout << "Pos:\t" << pos << endl;
+		//cout << "Neg:\t" << negs << endl;
 	}
+	if(right == 0 || wrong == 0)
+		return 0;
+	else
+		return ((right) /(right+wrong));
+
 }
 
 void SVM::shuffle_data() {
@@ -158,6 +166,39 @@ void SVM::shuffle_data() {
 	}
 }
 
-void SVM::test_accuracy(string filename) {
-	fill_training_vecs(filename, 1);
+void SVM:: cross_validation(){
+	for(unsigned int i = 0; i < learning_rates.size(); i++){
+		for(unsigned int j = 0; j < trade_off_param.size(); j++){
+			cout << "SVM Cross Validation - tradeoff " << trade_off_param[j] <<
+						" learning rate " << learning_rates[i] << endl;
+			double result = validate(learning_rates[i], trade_off_param[j]);
+			cout << "Average accuracy " << result << endl;
+		}
+	}
+}
+double SVM:: validate(double learning_rate, double tradeoff){
+	double accuracy = 0;
+	for(unsigned int i = 0; i < 5; i++){
+		empty_vectors();
+		for(unsigned int j = 0; j < file_list.size(); j++){
+			if(j != i)
+				fill_training_vecs(file_list[j],0);
+		}
+		//fill_training_vecs(file_list[i], 0);
+		run_svm(learning_rate,tradeoff);
+		double temp_acc = test_accuracy(file_list[i]);
+		cout << "Testing on file " << file_list[i] << endl;
+		cout << "Accuracy " << temp_acc << endl;;
+		accuracy += temp_acc;
+		//double fill_training_vecs(string filename, char is_test);
+	}
+	accuracy = accuracy / 5;
+	return accuracy;
+}
+double SVM::test_accuracy(string filename) {
+	return fill_training_vecs(filename, 1);
+}
+
+void SVM:: empty_weights(){
+
 }
