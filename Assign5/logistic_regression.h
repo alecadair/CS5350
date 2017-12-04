@@ -26,7 +26,7 @@ public:
 	LogisticRegression();
 	void update_weights(map<unsigned int, double> feature, double label, 
 							double gamma, double sigma);
-	
+	void cross_validation();
 	virtual ~LogisticRegression();
 	void test(string filename);
 	void train_classifier(string filename);

@@ -23,7 +23,6 @@
 LogisticRegression::LogisticRegression() {
 	// TODO Auto-generated constructor stub
 	
-
 }
 
 LogisticRegression::~LogisticRegression() {

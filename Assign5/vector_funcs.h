@@ -1,5 +1,6 @@
 #ifndef VECTOR_FUNCS_H_
 #define VECTOR_FUNCS_H_
+
 #include <stdlib.h>
 #include <iostream>
 #include <math.h>
