@@ -14,6 +14,7 @@
 #include <string>
 #include <time.h>
 #include "nearest_neighbors.h"
+#include "id3.h"
 
 const unsigned int NUM_FEATURES = 17;
 
@@ -65,7 +66,23 @@ bool update_weights(vector<double>* weights, vector<double> example, double labe
 	return false;
 }
 
+void initialize_weights(){
+	srand(time(NULL));
+	for(unsigned i = 0; i < NUM_FEATURES; i++){
+		double random = 0;
+		//srand(time(NULL));
+		int rand_num = rand();
+		rand_num = rand_num % 1000;
+		random = (double) rand_num;
+		random = random /10000;
+		if(rand_num%2 == 0){
+			random *= -1;
+		}
+		weight_vector.push_back(random);
+	}
+}
 void run_perceptron(){
+	initialize_weights();
 	double rates[3] = {.1,1,10};
 	//double num_rates = 3;
 	unsigned int  updates = 0;
@@ -93,27 +110,30 @@ void run_perceptron(){
 
 }
 
-void initialize_weights(){
-	srand(time(NULL));
-	for(unsigned i = 0; i < NUM_FEATURES; i++){
-		double random = 0;
-		//srand(time(NULL));
-		int rand_num = rand();
-		rand_num = rand_num % 1000;
-		random = (double) rand_num;
-		random = random /10000;
-		if(rand_num%2 == 0){
-			random *= -1;
-		}
-		weight_vector.push_back(random);
-	}
-}
+//void initialize_weights(){
+//	srand(time(NULL));
+//	for(unsigned i = 0; i < NUM_FEATURES; i++){
+//		double random = 0;
+//		//srand(time(NULL));
+//		int rand_num = rand();
+//		rand_num = rand_num % 1000;
+//		random = (double) rand_num;
+//		random = random /10000;
+//		if(rand_num%2 == 0){
+//			random *= -1;
+//		}
+//		weight_vector.push_back(random);
+//	}
+//}
 
 void test_perceptron(){
-	cout << "Id,Prediction" << endl;
-	ifstream testf_stream("./DatasetRetry/data-splits/data.eval.anon");
-	ifstream testfid_stream("./DatasetRetry/data-splits/data.eval.id");
+	//cout << "Id,Prediction" << endl;
+	ifstream testf_stream("./DatasetRetry/data-splits/data.test");
+	ifstream testfid_stream("./DatasetRetry/data-splits/data.test.id");
 	//ifstream userid_stream ("./")
+	//ofstream output_data("./perceptron_data.csv");
+	//ofstream output_accuracy("./perceptron_accuracy.csv");
+	cout << "Id,Prediction" << endl;
 	double positives = 0, negatives = 0, total_tests = 0;
 	if(testf_stream.is_open() && testfid_stream.is_open()){
 		double label = 0;
@@ -136,6 +156,7 @@ void test_perceptron(){
 			else
 				negatives ++;
 			total_tests ++;
+			//cout << id << ",";
 			cout << id << ",";
 			if(test_prod == -1){
 				cout << '0' << endl;
@@ -153,12 +174,17 @@ void test_perceptron(){
 	cout << "Total Wrong:\t" << negatives << endl;
 }
 
-int main(){
+int main(int argc, char** argv){
 	//initialize_weights();
 	//run_perceptron();
 	//test_perceptron();
-	KNearestNeighbors knn;
-	knn.run_knn();
+	//KNearestNeighbors knn;
+	//knn.run_knn();
+	ID3 id3;
+	Node id3_node;
+	int i = 0 + 1;
+	id3_node = id3.induce_tree(10,"./DatasetRetry/data-splits/data.train");
+	id3.test("./DatasetRetry/data-splits/data.eval.anon", id3_node);
 	return 0;
 }
 
