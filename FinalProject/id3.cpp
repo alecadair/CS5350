@@ -214,18 +214,21 @@ Node ID3::id3_algorithm(vector<map<unsigned int, double> >* examples,
 		}
 		//cout << "sv size: " << sv.size() << endl;
 		//if sv is empty create l or past current depth
-		if (sv.size() == 0 || current_depth >= 10) {
+		if (sv.size() == 0 || current_depth >= 3) {
 			child.is_leaf = true;
 			double maj_lab = majority_label(&labels_sv);
 			child.label = maj_lab;
 			new_node.children.push_back(child);
-			cout << child.label << endl;
+			//cout << child.label << endl;
 			//return new_node;
 		} else {
 			new_node.children.push_back(id3_algorithm(&sv, &labels_sv, attributes,
 					current_depth + 1));
 
 		}
+	}
+	if(current_depth == 0){
+		this->root_node = new_node;
 	}
 	return new_node;
 }
@@ -245,9 +248,13 @@ double ID3::majority_label(vector<double>* labels) {
 
 void ID3::test(string test_file, Node tree){
 	ifstream test_stream(test_file);
+	ifstream id_stream("./DatasetRetry/data-splits/data.eval.id");
 	string test_line;
+	string id;
 	double right = 0, wrong = 0, pos = 0, neg = 0;
+	cout <<"Id,Prediction" << endl;
 	while(getline(test_stream,test_line)){
+		getline(id_stream,id);
 		map<unsigned int, double> test_ex;
 		double test_lab;
 		//funcs.get_example_from_data(test_line,&test_ex,&test_lab,1);
@@ -281,12 +288,13 @@ void ID3::test(string test_file, Node tree){
 			pos ++;
 		else
 			neg++;
+		cout << id << "," << label << endl;
 	}
-	cout << "Accuracy - " << ((right)/(right+wrong)) << endl;
-	cout << "Right - " << right << endl;
-	cout << "Wrong - " << wrong << endl;
-	cout << "Pos - " << pos << endl;
-	cout << "Neg - " << neg << endl;
+	//cout << "Accuracy - " << ((right)/(right+wrong)) << endl;
+	//cout << "Right - " << right << endl;
+	//cout << "Wrong - " << wrong << endl;
+	//cout << "Pos - " << pos << endl;
+	//cout << "Neg - " << neg << endl;
 }
 
 double ID3::get_example_from_data(string line, map<unsigned int, double>* feat_vec, double* label, char is_test){
