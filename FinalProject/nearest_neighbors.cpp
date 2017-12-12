@@ -36,13 +36,13 @@ void KNearestNeighbors::fill_training_examples(){
 	tf_stream.close();
 }
 void KNearestNeighbors::run_knn(){
-	double K = 5;
+	double K = 1;
 	FileExtraction extract;
 	fill_training_examples();
 	int size = training_examples.size();
 
-	ifstream tf_stream("./DatasetRetry/data-splits/data.eval.anon");
-	ifstream name_stream("./DatasetRetry/data-splits/data.eval.id");
+	ifstream tf_stream("./DatasetRetry/data-splits/data.test");
+	ifstream name_stream("./DatasetRetry/data-splits/data.test.id");
 	cout << "ID,Prediction" << endl;
 	unsigned int count = 0;
 	double max_distance = DBL_MAX;
@@ -72,10 +72,10 @@ void KNearestNeighbors::run_knn(){
 			//	break;
 			//}
 		}
-		//cout << "Accuracy:\t" << (right/total) << endl;
-		//cout << "Total Tests\t" << total << endl;
-		//cout << "Total Right\t" << right << endl;
-		//cout << "Total Wrong\t" << wrong << endl;
+		cout << "Accuracy:\t" << (right/total) << endl;
+		cout << "Total Tests\t" << total << endl;
+		cout << "Total Right\t" << right << endl;
+		cout << "Total Wrong\t" << wrong << endl;
 	}
 	tf_stream.close();
 	name_stream.close();

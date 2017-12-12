@@ -15,6 +15,7 @@
 #include <time.h>
 #include "nearest_neighbors.h"
 #include "id3.h"
+#include "bagged_forest.h"
 
 const unsigned int NUM_FEATURES = 17;
 
@@ -180,11 +181,14 @@ int main(int argc, char** argv){
 	//test_perceptron();
 	//KNearestNeighbors knn;
 	//knn.run_knn();
-	ID3 id3;
-	Node id3_node;
-	int i = 0 + 1;
-	id3_node = id3.induce_tree(10,"./DatasetRetry/data-splits/data.train");
-	id3.test("./DatasetRetry/data-splits/data.eval.anon", id3_node);
+	//ID3 id3;
+	//Node id3_node;
+	//int i = 0 + 1;
+	//id3_node = id3.induce_tree(10,"./DatasetRetry/data-splits/data.train");
+	//id3.test("./DatasetRetry/data-splits/data.eval.anon", id3_node);
+	BaggedForest forest;
+	forest.run_bagged_forest("./DatasetRetry/data-splits/data.train");
+	forest.test("./DatasetRetry/data-splits/data.test");
 	return 0;
 }
 
