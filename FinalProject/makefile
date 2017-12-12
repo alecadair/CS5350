@@ -1,7 +1,7 @@
 CC = g++
-OBJ = main.o nearest_neighbors.o vector_funcs.o file_extraction.o id3.o bagged_forest.o
+OBJ = main.o nearest_neighbors.o vector_funcs.o file_extraction.o id3.o bagged_forest.o kmeans.o
 FLAGS = -g -std=c++11
-DEPS = nearest_neighbors.h file_extraction.h vector_funcs.h id3.h bagged_forest.h
+DEPS = nearest_neighbors.h file_extraction.h vector_funcs.h id3.h bagged_forest.h kmeans.h
 
 all:final_proj
 
@@ -25,6 +25,8 @@ file_extraction.o:file_extraction.cpp
 
 bagged_forest.o:bagged_forest.cpp
 	$(CC) $(FLAGS) -c bagged_forest.cpp
+kmeans.o:kmeans.cpp
+	$(CC) $(FLAGS) -c kmeans.cpp
 	
 clean:
 	rm -f final_proj $(OBJ)

@@ -16,6 +16,7 @@
 #include "nearest_neighbors.h"
 #include "id3.h"
 #include "bagged_forest.h"
+#include "kmeans.h"
 
 const unsigned int NUM_FEATURES = 17;
 
@@ -186,9 +187,12 @@ int main(int argc, char** argv){
 	//int i = 0 + 1;
 	//id3_node = id3.induce_tree(10,"./DatasetRetry/data-splits/data.train");
 	//id3.test("./DatasetRetry/data-splits/data.eval.anon", id3_node);
-	BaggedForest forest;
-	forest.run_bagged_forest("./DatasetRetry/data-splits/data.train");
-	forest.test("./DatasetRetry/data-splits/data.test");
+	////BaggedForest forest;
+	//forest.run_bagged_forest("./DatasetRetry/data-splits/data.train");
+	//forest.test("./DatasetRetry/data-splits/data.eval.anon");
+	KMeans kmeans;
+	kmeans.run_kmeans("./DatasetRetry/data-splits/data.train", 3, 1);
+	kmeans.test_kmeans("./DatasetRetry/data-splits/data.test");
 	return 0;
 }
 
