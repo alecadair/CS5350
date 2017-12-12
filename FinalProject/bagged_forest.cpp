@@ -21,28 +21,28 @@ BaggedForest::~BaggedForest() {
 
 }
 double BaggedForest::test_one_example(map<unsigned int, double> test_feature,
-		double label, ID3 tree) {
+		double label, ID3* tree) {
 	//map<unsigned int, double> test_ex;
 	//double test_lab = 0;
 	//funcs.get_example_from_data(test_line, &test_ex, &test_lab, 1);
-	Node temp = tree.root_node;
+	Node* temp = &(tree->root_node);
 	for(unsigned i = 1; i <= 16; i++){
 		map<unsigned int, double>::iterator test_iter = test_feature.find(i);
 		if(test_iter != test_feature.end()){
-			if(test_iter->second <= tree.average_attributes[i]){
+			if(test_iter->second <= tree->average_attributes[i]){
 				test_feature.erase(test_iter);
 			}
 		}
 	}
-	while (temp.is_leaf == 0) {
-		unsigned int attr = temp.attribute;
+	while (temp->is_leaf == 0) {
+		unsigned int attr = temp->attribute;
 		if (test_feature.find(attr) == test_feature.end()) {
-			temp = temp.children[0];
+			temp = &(temp->children[0]);
 		} else {
-			temp = temp.children[1];
+			temp = &(temp->children[1]);
 		}
 	}
-	double test_label = temp.label;
+	double test_label = temp->label;
 	return test_label;
 }
 
@@ -89,7 +89,8 @@ void BaggedForest::test(string filename) {
 		vector<double> tree_labels;
 		funcs.get_example_from_data(test_line, &test_ex, &test_lab, 1);
 		for (unsigned i = 0; i < forest.size(); i++) {
-			tree_labels.push_back(test_one_example(test_ex, test_lab, forest[i]));
+			ID3 to_test = forest[i];
+			tree_labels.push_back(test_one_example(test_ex, test_lab, &to_test));
 		}
 		double maj = id.majority_label(&tree_labels);
 		if (maj == test_lab)

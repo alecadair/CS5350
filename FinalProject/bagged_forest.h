@@ -22,7 +22,7 @@ public:
 	BaggedForest();
 	virtual ~BaggedForest();
 	void run_bagged_forest(string filename);
-	double test_one_example(map<unsigned int, double> test_feature,double label, ID3 tree);
+	double test_one_example(map<unsigned int, double> test_feature,double label, ID3* tree);
 	void test(string filename);
 };
 
